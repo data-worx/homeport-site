@@ -21,21 +21,52 @@ does not exist.
 
 ## Overview
 
-<!-- What this project is, in three or four sentences. What it does, who runs
-     it, and the one or two facts a newcomer gets wrong without being told. -->
+The project website of [Homeport](https://github.com/data-worx/homeport),
+built with Hugo and published through GitHub Pages at
+`homeport.data-worx.de`. It explains the platform and its modules; the
+product documentation lives in the homeport repository.
+
+Two facts a newcomer gets wrong:
+
+- **The design is not made here.** The design system lives in
+  `data-worx/homeport` under `design/`. This repository only consumes its
+  generated files.
+- **The site keeps the product's promise.** Homeport never phones home, and
+  neither does its website: no tracking, no analytics, no third-party
+  requests at runtime.
 
 ## Tech stack
 
-<!-- Only what binds. The descriptive version belongs in docs/tech-stack.md. -->
+- Hugo, static output only. No server-side code.
+- GitHub Pages for hosting, custom domain `homeport.data-worx.de`.
+- Fonts, scripts and stylesheets are served from this site. No CDN, no
+  external embeds, no cookies.
+- Design files are pulled with `scripts/sync-design.sh <tag>`, pinned to a
+  tag of `data-worx/homeport`. They are generated files: never edit them by
+  hand, change them upstream and sync again.
+- The gates live in `.devkit/gates.sh`; run them with
+  `bash .devkit/gates.sh`.
 
 ## Architecture
 
-<!-- The dependency rules that must not be broken, and what happens when they
-     are. The current project layout belongs in docs/architecture.md. -->
+Not set yet. The Hugo layout is decided with the ticket that creates it.
+
+## Licensing
+
+- **Content** — everything under `content/` — is licensed under CC BY 4.0
+  (`LICENSE-CONTENT`).
+- **Everything else** — templates, styles, scripts, configuration — is
+  licensed under MIT (`LICENSE`).
+- **The names "Homeport" and "data-worx" and their logos** are not licensed
+  under either, wherever they are stored.
+- Third-party assets — fonts, icons — only under a licence compatible with
+  both (MIT, Apache-2.0, BSD, ISC, SIL OFL).
 
 ## Domain terms
 
-<!-- | Term | Means | — the words this project uses in a specific sense. -->
+See the *Domain terms* of
+[data-worx/homeport](https://github.com/data-worx/homeport/blob/main/AGENTS.md#domain-terms).
+The site uses them in the same sense.
 
 ## Deviations from the shared rules
 
