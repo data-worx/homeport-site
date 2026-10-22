@@ -4,9 +4,10 @@
     <p class="eyebrow">{{ .Params.eyebrow }}</p>
     <h1 class="display">{{ .Title }}</h1>
     <p class="lead">{{ .Params.lead }}</p>
+    <p class="status">{{ .Params.status | .RenderString }}</p>
     <div class="ctas">
       <a class="btn btn-accent" href="{{ site.Params.repo }}#readme">{{ T "getStarted" }}</a>
-      <a class="btn btn-outline" href="{{ site.Params.repo }}">{{ T "viewOnGitHub" }}</a>
+      <a class="btn btn-outline" href="{{ site.Params.repo }}">{{ partial "icon.html" "git-branch" }}{{ T "viewOnGitHub" }}</a>
     </div>
     {{- /* Inlined so the strokes take their colours from the tokens. The
            alternative text comes from the translation, not from the file. */}}
@@ -17,7 +18,97 @@
     <div class="navlights" aria-hidden="true"><i class="port"></i><span></span><i class="starboard"></i></div>
   </div>
 </section>
-<div class="sections">
-  {{ .Content }}
-</div>
+
+{{ with .Params.features }}
+<section id="{{ .id }}" class="sec">
+  <div class="wrap">
+    <h2 class="visually-hidden">{{ .menu }}</h2>
+    <div class="pillars">
+      {{- range .pillars }}
+      <article class="card pillar">
+        {{ partial "icon.html" .icon }}
+        <h3>{{ .title }}</h3>
+        <p>{{ .text }}</p>
+      </article>
+      {{- end }}
+    </div>
+    <div class="features">
+      {{- range .items }}
+      <div class="feat">
+        {{ partial "icon.html" .icon }}
+        <h3>{{ .title }}</h3>
+        <p>{{ .text }}</p>
+      </div>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{ with .Params.team }}
+<section id="{{ .id }}" class="sec alt">
+  <div class="wrap">
+    <h2 class="h1">{{ .title }}</h2>
+    <div class="team">
+      {{- range .audiences }}
+      <article class="card aud">
+        <p class="eyebrow">{{ .eyebrow }}</p>
+        <h3>{{ .title }}</h3>
+        <ul>
+          {{- range .points }}
+          <li>{{ partial "icon.html" "check" }}<span>{{ . | $.RenderString }}</span></li>
+          {{- end }}
+        </ul>
+      </article>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{ with .Params.how }}
+<section id="{{ .id }}" class="sec">
+  <div class="wrap">
+    <h2 class="h1">{{ .title }}</h2>
+    <p class="lead2">{{ .lead }}</p>
+    <ol class="steps">
+      {{- range $i, $step := .steps }}
+      <li class="card">
+        {{ partial "icon.html" .icon }}
+        <span class="n" aria-hidden="true">{{ add $i 1 }}</span>
+        <h3>{{ .title | $.RenderString }}</h3>
+        <p>{{ .text }}</p>
+      </li>
+      {{- end }}
+    </ol>
+  </div>
+</section>
+{{ end }}
+
+{{ with .Params.modules }}
+<section id="{{ .id }}" class="sec alt">
+  <div class="wrap">
+    <h2 class="h1">{{ .title }}</h2>
+    <p class="lead2">{{ .lead }}</p>
+    <a class="btn btn-outline" href="{{ .url }}">{{ partial "icon.html" "file-text" }}{{ .link }}</a>
+  </div>
+</section>
+{{ end }}
+
+{{ with .Params.licensing }}
+<section class="sec">
+  <div class="wrap">
+    <h2 class="h1">{{ .title }}</h2>
+    <div class="lic">
+      {{- range .items }}
+      <div>
+        {{ partial "icon.html" .icon }}
+        <h3>{{ .title }}</h3>
+        <p>{{ .text | $.RenderString }}</p>
+      </div>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{ end }}
 {{ end }}
