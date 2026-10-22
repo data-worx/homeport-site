@@ -1,11 +1,14 @@
 <header class="top">
   <div class="wrap top-in">
     <a class="brand" href="{{ site.Home.RelPermalink }}">{{ partial "logo.html" "light" }}</a>
-    {{- if .IsHome }}
+    {{- /* The sections of the start page in this language; from any other
+           page the links lead back to them. */}}
+    {{- with site.Home }}
+    {{- $home := . }}
     <nav class="menu" aria-label="{{ T "navSections" }}">
       {{- with .Params }}
       {{- range slice .features .team .how .modules }}
-      <a href="#{{ .id }}">{{ .menu }}</a>
+      <a href="{{ $home.RelPermalink }}#{{ .id }}">{{ .menu }}</a>
       {{- end }}
       {{- end }}
     </nav>
