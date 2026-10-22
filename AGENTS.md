@@ -41,9 +41,10 @@ Two facts a newcomer gets wrong:
 - GitHub Pages for hosting, custom domain `homeport.data-worx.de`.
 - Fonts, scripts and stylesheets are served from this site. No CDN, no
   external embeds, no cookies.
-- Design files are pulled with `scripts/sync-design.sh <tag>`, pinned to a
-  tag of `data-worx/homeport`. They are generated files: never edit them by
-  hand, change them upstream and sync again.
+- Design files are pulled with `scripts/sync-design.sh` from the `main`
+  branch of `data-worx/homeport`; what is on `main` applies. They are
+  generated files: never edit them by hand, change them upstream and sync
+  again. The script names every file it writes.
 - The gates live in `.devkit/gates.sh`; run them with
   `bash .devkit/gates.sh`.
 
