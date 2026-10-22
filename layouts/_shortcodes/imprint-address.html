@@ -2,7 +2,7 @@
        committed: it comes from the git-ignored imprint.local.txt (one line
        per address line), which the deploy writes from a secret. Without the
        file the sample address below is shown. */ -}}
-{{- $lines := slice "Musterstraße 1" "12345 Musterstadt" -}}
+{{- $lines := slice "Musterstraße 1" "12345 Musterstadt" "Deutschland" -}}
 {{- if fileExists "imprint.local.txt" -}}
   {{- $lines = slice -}}
   {{- range split (os.ReadFile "imprint.local.txt") "\n" -}}
