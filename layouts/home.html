@@ -1,0 +1,23 @@
+{{ define "main" }}
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">{{ .Params.eyebrow }}</p>
+    <h1 class="display">{{ .Title }}</h1>
+    <p class="lead">{{ .Params.lead }}</p>
+    <div class="ctas">
+      <a class="btn btn-accent" href="{{ site.Params.repo }}#readme">{{ T "getStarted" }}</a>
+      <a class="btn btn-outline" href="{{ site.Params.repo }}">{{ T "viewOnGitHub" }}</a>
+    </div>
+    {{- /* Inlined so the strokes take their colours from the tokens. The
+           alternative text comes from the translation, not from the file. */}}
+    {{- $art := resources.Get "images/hero-home-port.svg" }}
+    <div class="hero-art hp-illus" role="img" aria-label="{{ T "heroArt" }}">
+      {{ replace $art.Content `role="img"` `aria-hidden="true"` | safeHTML }}
+    </div>
+    <div class="navlights" aria-hidden="true"><i class="port"></i><span></span><i class="starboard"></i></div>
+  </div>
+</section>
+<div class="sections">
+  {{ .Content }}
+</div>
+{{ end }}

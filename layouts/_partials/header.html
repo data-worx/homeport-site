@@ -1,0 +1,11 @@
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="{{ site.Home.RelPermalink }}">{{ partial "logo.html" "light" }}</a>
+    <nav class="top-nav" aria-label="{{ T "navMain" }}">
+      {{- range .Translations }}
+      <a href="{{ .RelPermalink }}" hreflang="{{ .Language.Locale }}" lang="{{ .Language.Locale }}">{{ .Language.Label }}</a>
+      {{- end }}
+      <a href="{{ site.Params.repo }}">GitHub</a>
+    </nav>
+  </div>
+</header>

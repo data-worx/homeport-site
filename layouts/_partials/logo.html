@@ -1,0 +1,12 @@
+{{- /* The lockup in the colours for the ground it stands on: "light" follows
+       the colour scheme, "dark" is for grounds that stay dark. */ -}}
+{{- $light := resources.Get "images/homeport-lockup.svg" -}}
+{{- $dark := resources.Get "images/homeport-lockup-on-dark.svg" -}}
+<picture>
+  {{- if eq . "light" }}
+  <source srcset="{{ $dark.RelPermalink }}" media="(prefers-color-scheme: dark)">
+  <img src="{{ $light.RelPermalink }}" alt="Homeport by data-worx" height="40">
+  {{- else }}
+  <img src="{{ $dark.RelPermalink }}" alt="Homeport by data-worx" height="40">
+  {{- end }}
+</picture>
