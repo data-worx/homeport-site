@@ -256,6 +256,33 @@ img { max-width: 100%; height: auto; }
 .steps h3 { margin: var(--space-3) 0 var(--space-2); font: 600 20px/28px var(--font-sans); }
 .steps p { margin: 0; color: var(--ink-muted); }
 
+/* Architecture diagram: the class names come from the kit's files. */
+.archfig { margin: var(--space-6) 0 0; padding: var(--space-6); }
+.archfig figcaption { margin-top: var(--space-3); color: var(--ink-muted); font-size: 14px; }
+.lg { display: inline-flex; align-items: center; gap: var(--space-2); margin: 0 var(--space-5) var(--space-2) 0; color: var(--ink); }
+.lg-note { display: block; }
+.sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; }
+.sw.cat { background: var(--accent); border: 1px solid var(--accent-edge); }
+.sw.own { background: var(--primary-soft); border: 1.5px solid var(--primary); }
+.arch { display: block; width: 100%; height: auto; }
+.arch-v { display: none; max-width: 360px; margin: 0 auto; }
+.arch .zone { fill: none; stroke: var(--line-strong); stroke-dasharray: 6 6; }
+.arch .zl { fill: var(--ink-muted); font: 600 13px var(--font-sans); }
+.arch .box { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; }
+.arch .key { stroke: var(--primary); stroke-width: 2; }
+.arch .mod { fill: var(--accent); stroke: var(--accent-edge); }
+.arch .mod.new { fill: none; stroke: var(--accent-edge); stroke-dasharray: 5 5; }
+.arch .own { fill: var(--primary-soft); stroke: var(--primary); stroke-width: 1.5; }
+.arch .bt { fill: var(--ink); font: 600 15px var(--font-sans); }
+.arch .bs { fill: var(--ink-muted); font: 500 12px var(--font-sans); }
+.arch .mod + .bt, .arch .mod + .bs { fill: var(--on-accent); }
+.arch .own + .bt, .arch .own + .bs { fill: var(--ink); }
+.arch .mod.new + .bs { fill: var(--ink-muted); }
+.arch .tag { fill: var(--on-accent); font: 500 12px var(--font-sans); opacity: 0.8; }
+.arch .tag2 { fill: var(--primary); font: 600 12px var(--font-sans); }
+.arch .flow { fill: none; stroke: var(--ink-muted); stroke-width: 1.5; }
+.arch .dash { stroke-dasharray: 4 5; }
+
 .lic { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
 .lic h3 { margin: var(--space-3) 0 var(--space-2); font: 600 20px/28px var(--font-sans); }
 .lic p { margin: 0; color: var(--ink-muted); }
@@ -312,6 +339,9 @@ code {
   .pillars, .features, .team, .steps, .lic { grid-template-columns: 1fr; }
   .pillar { padding: var(--space-5); }
   .pillar h3 { font-size: 22px; line-height: 30px; }
+  .arch-h { display: none; }
+  .arch-v { display: block; }
+  .archfig { padding: var(--space-4); }
   .foot-in { grid-template-columns: 1fr; }
   .foot nav { justify-content: flex-start; }
 }

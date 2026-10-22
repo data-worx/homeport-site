@@ -35,6 +35,8 @@ assets/licenses/OFL-JetBrainsMono.txt        static/fonts/OFL-JetBrainsMono.txt
 assets/logos/homeport-lockup.svg             assets/images/homeport-lockup.svg
 assets/logos/homeport-lockup-on-dark.svg     assets/images/homeport-lockup-on-dark.svg
 assets/illustrations/hero-home-port.svg      assets/images/hero-home-port.svg
+assets/illustrations/architecture-horizontal.svg assets/images/architecture-horizontal.svg
+assets/illustrations/architecture-vertical.svg   assets/images/architecture-vertical.svg
 assets/logos/favicon.svg                     static/favicon.svg
 assets/logos/favicon-16.png                  static/favicon-16.png
 assets/logos/favicon-32.png                  static/favicon-32.png

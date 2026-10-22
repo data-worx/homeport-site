@@ -81,6 +81,26 @@
       </li>
       {{- end }}
     </ol>
+    {{- with .diagram }}
+    {{- /* Inlined without the files' own <style>, so the diagram takes its
+           colours from the tokens. The alternative text is translated. */}}
+    <figure class="card archfig">
+      <div role="img" aria-label="{{ .alt }}">
+        {{- range slice "horizontal" "vertical" }}
+        {{- $svg := (resources.Get (printf "images/architecture-%s.svg" .)).Content }}
+        {{- $svg = replaceRE `(?s)<style>.*?</style>` "" $svg }}
+        {{- $svg = replaceRE `(?s)<title>.*?</title>` "" $svg }}
+        {{- $svg = replaceRE `role="img" aria-label="[^"]*"` (printf `class="arch arch-%s" aria-hidden="true" focusable="false"` (substr . 0 1)) $svg }}
+        {{ $svg | safeHTML }}
+        {{- end }}
+      </div>
+      <figcaption>
+        <span class="lg"><i class="sw cat"></i>{{ .catalog }}</span>
+        <span class="lg"><i class="sw own"></i>{{ .own }}</span>
+        <span class="lg-note">{{ .note }}</span>
+      </figcaption>
+    </figure>
+    {{- end }}
   </div>
 </section>
 {{ end }}

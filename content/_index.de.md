@@ -77,6 +77,11 @@ how:
     - icon: hp-module
       title: "Module andocken"
       text: "Aus dem Katalog oder deine eigenen Dienste. Jedes Modul registriert sich selbst und wird geroutet, gemessen und beobachtet."
+  diagram:
+    alt: "Architektur: Deine Anwendungen rufen das Homeport-Gateway auf. Das Gateway prüft jeden Aufrufer bei deinem Identity Provider, wendet Drosselung und Verbrauchsmessung an und ruft die angedockten Module mit einem eigenen, kurzlebigen signierten Token auf. Katalogmodule und deine interne API prüfen dieses Token und sprechen nie mit dem Identity Provider. Module registrieren sich bei der Registry. Alle Komponenten senden OTLP-Telemetrie an dein Monitoring."
+    catalog: "Aus dem Homeport-Katalog"
+    own: "Deine eigenen Dienste, gleicher Vertrag"
+    note: "Alles innerhalb des Rahmens läuft in deiner Umgebung. Identität und Monitoring bleiben bei dir."
 
 modules:
   id: modules

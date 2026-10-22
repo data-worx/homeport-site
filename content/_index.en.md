@@ -77,6 +77,11 @@ how:
     - icon: hp-module
       title: "Dock modules"
       text: "From the catalog or your own services. Each registers itself and is routed, metered and observed."
+  diagram:
+    alt: "Architecture: your apps call the Homeport gateway. The gateway validates each caller against your identity provider, applies throttling and metering, and calls the docked modules with its own short-lived signed token. Catalog modules and your internal API validate that token and never talk to the identity provider. Modules register with the registry. All components send OTLP telemetry to your monitoring."
+    catalog: "From the Homeport catalog"
+    own: "Your own services, same contract"
+    note: "Everything inside the frame runs in your environment. Identity and monitoring stay yours."
 
 modules:
   id: modules

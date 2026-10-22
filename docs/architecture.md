@@ -17,7 +17,8 @@ assets/
   css/tokens.css        generated, from data-worx/homeport
   css/site.css          the page stylesheet
   icons/                generated: Lucide and Homeport icons, inlined
-  images/               generated: lockups and hero illustration
+  images/               generated: lockups, hero illustration, architecture
+                        diagram
   js/theme.js           the theme switch, the only script
 content/                one page per language: <name>.en.md, <name>.de.md;
                         the start page keeps its sections in front matter
@@ -43,6 +44,11 @@ hugo.toml
 - **The stylesheet is one file.** Hugo concatenates `tokens.css` and
   `site.css`, minifies and fingerprints them; `tokens.css` loads the fonts
   from `../fonts/`, which resolves to `static/fonts/`.
+- **The architecture diagram is inlined, without its own style.** The kit's
+  files carry fixed light colours; the page drops their `<style>` and maps
+  the class names to tokens, so the diagram follows the theme. A wide and a
+  narrow variant are both in the page, CSS shows one. The labels inside stay
+  English on the German page; the alternative text is translated.
 - **The hero illustration is inlined.** Inline SVG lets its strokes take the
   token colours, so it follows the colour scheme. The alternative text comes
   from `i18n/`, because the file carries only an English one.
