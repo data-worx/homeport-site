@@ -16,3 +16,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   features, what it offers each team, how it works and its module model.
 - A switch between the light and the dark theme. Without JavaScript the page
   follows the system setting.
+- An imprint and a privacy policy in German and English, linked from the
+  footer of every page. The German versions are authoritative.

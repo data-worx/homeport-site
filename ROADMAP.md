@@ -26,15 +26,12 @@ Out of scope: publishing, imprint and privacy pages.
 
 The site is public under `homeport.data-worx.de`.
 
-**Blocked by the imprint address.** The site does not go public without an
-imprint, and no private address is published — M1 starts once the imprint
-address service is booked.
-
 Done when:
 
-1. An imprint address exists that is not a private one.
-2. The imprint and privacy pages are in place, in English and German.
-3. The site is published on GitHub Pages under `homeport.data-worx.de`, and
+1. The imprint and privacy pages are in place, in English and German. The
+   imprint address is never committed: it comes from a local file and, on
+   deploy, from a repository secret.
+2. The site is published on GitHub Pages under `homeport.data-worx.de`, and
    HTTPS is enforced.
 
 Out of scope: content beyond the start page and the quickstart.
