@@ -56,6 +56,7 @@ The layout is described in [`docs/architecture.md`](docs/architecture.md).
 - Every page works without JavaScript. Script may only enhance.
 - Every page under `content/` exists as `.en.md` and `.de.md`. English is
   served at `/`, German at `/de/`.
+- German content addresses the reader as *du*, never as *Sie*.
 - Translatable strings in templates come from `i18n/`, in both languages.
 
 ## Licensing
