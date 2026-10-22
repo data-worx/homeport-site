@@ -1,12 +1,11 @@
 {{- /* The lockup in the colours for the ground it stands on: "light" follows
-       the colour scheme, "dark" is for grounds that stay dark. */ -}}
+       the theme, "dark" is for grounds that stay dark. Both images are in
+       the page; site.css shows the one that fits. */ -}}
 {{- $light := resources.Get "images/homeport-lockup.svg" -}}
 {{- $dark := resources.Get "images/homeport-lockup-on-dark.svg" -}}
-<picture>
-  {{- if eq . "light" }}
-  <source srcset="{{ $dark.RelPermalink }}" media="(prefers-color-scheme: dark)">
-  <img src="{{ $light.RelPermalink }}" alt="Homeport by data-worx" height="40">
-  {{- else }}
-  <img src="{{ $dark.RelPermalink }}" alt="Homeport by data-worx" height="40">
-  {{- end }}
-</picture>
+{{- if eq . "light" }}
+<img class="on-light" src="{{ $light.RelPermalink }}" alt="Homeport by data-worx" height="40">
+<img class="on-dark" src="{{ $dark.RelPermalink }}" alt="Homeport by data-worx" height="40">
+{{- else }}
+<img src="{{ $dark.RelPermalink }}" alt="Homeport by data-worx" height="40">
+{{- end }}

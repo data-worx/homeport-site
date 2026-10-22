@@ -6,6 +6,11 @@
       <a href="{{ .RelPermalink }}" hreflang="{{ .Language.Locale }}" lang="{{ .Language.Locale }}">{{ .Language.Label }}</a>
       {{- end }}
       <a href="{{ site.Params.repo }}">GitHub</a>
+      <button class="theme-switch" type="button" aria-pressed="false" title="{{ T "darkTheme" }}" hidden>
+        <span class="visually-hidden">{{ T "darkTheme" }}</span>
+        <span class="on-light">{{ partial "icon.html" "moon" }}</span>
+        <span class="on-dark">{{ partial "icon.html" "sun" }}</span>
+      </button>
     </nav>
   </div>
 </header>
