@@ -26,5 +26,7 @@
     { "path": "AGENTS.github.md", "from": "forges/github/AGENTS.github.md", "mode": "managed", "hash": "1a5f17c1846ef7092e2d5e5c6c3efb0f8d4abf73" },
     { "path": ".devkit/forge.sh", "from": "forges/github/forge.sh", "mode": "managed", "hash": "c954a20fa222e9c9d0894e396c25ba058337cc96" }
   ],
-  "deviations": []
+  "deviations": [
+    { "slug": "core.language", "scope": "content/", "reason": "content/ is bilingual, English primary, German a translation; templates, code, commits and tickets stay English. Recorded in the Deviations table of AGENTS.md.", "decidedAt": "5af251c" }
+  ]
 }

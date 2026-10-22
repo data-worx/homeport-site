@@ -1,0 +1,22 @@
+baseURL = "https://homeport.data-worx.de/"
+title = "Homeport"
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+disableDefaultLanguageRedirect = true
+disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT"]
+
+[languages]
+  [languages.en]
+    label = "English"
+    weight = 1
+  [languages.de]
+    label = "Deutsch"
+    weight = 2
+
+[params]
+  repo = "https://github.com/data-worx/homeport"
+
+# The layouts need Hugo 0.158 or later: the template layout of 0.146 plus
+# Language.Locale and Language.Label.
+[module.hugoVersion]
+  min = "0.158.0"
