@@ -36,6 +36,8 @@ the European Commission under Art. 45 GDPR. Details are in the GitHub General
 Privacy Statement.
 
 The controller has no access to this access data and does not analyse it.
+How long GitHub keeps it is up to GitHub; the periods and criteria are in the
+GitHub General Privacy Statement.
 
 ## Storage in your browser
 
@@ -55,13 +57,20 @@ that purpose and no statutory retention period applies.
 ## Your rights
 
 You have the right of access (Art. 15 GDPR), rectification (Art. 16),
-erasure (Art. 17), restriction of processing (Art. 18), data portability
-(Art. 20) and to object to processing (Art. 21). Use the email address above.
+erasure (Art. 17), restriction of processing (Art. 18) and data portability
+(Art. 20). Use the email address above.
+
+**Right to object:** the processing on this website relies on legitimate
+interests (Art. 6 (1) (f) GDPR). You may object to it at any time on grounds
+relating to your particular situation (Art. 21 (1) GDPR).
 
 You also have the right to lodge a complaint with a data protection
 supervisory authority (Art. 77 GDPR), in particular in the member state of
 your habitual residence, your place of work or the place of the alleged
 infringement.
+
+Besides the GDPR, national data protection law applies, in Germany in
+particular the Federal Data Protection Act (BDSG).
 
 ## Last updated
 

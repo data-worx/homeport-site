@@ -34,7 +34,8 @@ Angemessenheitsbeschluss der EU-Kommission nach Art. 45 DSGVO. Einzelheiten
 stehen im GitHub General Privacy Statement.
 
 Der Verantwortliche hat auf diese Zugriffsdaten keinen Zugriff und wertet
-sie nicht aus.
+sie nicht aus. Wie lange GitHub sie speichert, legt GitHub fest; die Fristen
+und Kriterien dafür stehen im GitHub General Privacy Statement.
 
 ## Speicherung im Browser
 
@@ -56,13 +57,21 @@ gesetzliche Aufbewahrungspflicht besteht.
 ## Deine Rechte
 
 Du hast das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16),
-Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18),
-Datenübertragbarkeit (Art. 20) und Widerspruch gegen die Verarbeitung
-(Art. 21). Wende dich dafür an die oben genannte E-Mail-Adresse.
+Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und
+Datenübertragbarkeit (Art. 20). Wende dich dafür an die oben genannte
+E-Mail-Adresse.
+
+**Widerspruchsrecht:** Die Verarbeitungen auf dieser Website stützen sich auf
+berechtigte Interessen (Art. 6 Abs. 1 lit. f DSGVO). Du kannst ihnen aus
+Gründen, die sich aus deiner besonderen Situation ergeben, jederzeit
+widersprechen (Art. 21 Abs. 1 DSGVO).
 
 Außerdem hast du das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu
 beschweren (Art. 77 DSGVO), insbesondere in dem Mitgliedstaat deines
 Aufenthaltsorts, deines Arbeitsplatzes oder des mutmaßlichen Verstoßes.
+
+Neben der DSGVO gelten die nationalen Datenschutzvorschriften, in
+Deutschland insbesondere das Bundesdatenschutzgesetz (BDSG).
 
 ## Stand
 
