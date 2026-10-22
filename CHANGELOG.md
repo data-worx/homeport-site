@@ -9,4 +9,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Nothing yet.
+- The website: a start page in English and German with the Homeport design,
+  self-hosted fonts and no JavaScript, cookies or external requests.

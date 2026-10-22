@@ -1,29 +1,47 @@
 # Architecture
 
-The projects that exist in homeport-site today, how they are laid out, and
-why they are cut this way. This document describes the current state. The
-binding rules — the dependency direction, who may reference what — live in the
-*Architecture* section of [`AGENTS.md`](../AGENTS.md#architecture).
+How homeport-site is laid out today, and why it is cut this way. The binding
+rules live in the *Architecture* section of
+[`AGENTS.md`](../AGENTS.md#architecture).
 
 ## Projects
 
-<!-- One row per project. "May depend on" names the projects it references,
-     or "nothing" for the centre. A project that is not in this table does not
-     exist yet. -->
-
 | Project | Role | May depend on |
 |---|---|---|
-| — | — | — |
+| Hugo site | Builds the static website from `content/`, `layouts/` and the synced design files | the generated design files from data-worx/homeport |
 
 ## Directory layout
 
-<!-- The tree as it is on disk, down to the project directories. -->
-
 ```
+assets/
+  css/tokens.css        generated, from data-worx/homeport
+  css/site.css          the page stylesheet
+  images/               generated: lockups and hero illustration
+content/                one page per language: <name>.en.md, <name>.de.md
+i18n/                   UI strings, en.toml and de.toml
+layouts/
+  baseof.html           the page frame
+  home.html             the start page
+  _partials/            head, header, footer, logo
+scripts/sync-design.sh  pulls the generated design files
+static/                 generated: fonts with their OFL texts, favicons
+hugo.toml
 ```
 
 ## Why it is cut this way
 
-<!-- One bullet per decision that is not obvious from the table: what was
-     chosen, and what it prevents. The rule itself belongs in AGENTS.md; this
-     is the reason behind it. -->
+- **Own layouts, no theme.** A theme brings templates, scripts and often
+  external requests the site would have to audit. Writing the few layouts
+  keeps every request under control.
+- **The design is synced, not written.** `scripts/sync-design.sh` copies the
+  generated files from the `main` branch of data-worx/homeport, and they are
+  committed here. The site's own history records which state was in use.
+- **The stylesheet is one file.** Hugo concatenates `tokens.css` and
+  `site.css`, minifies and fingerprints them; `tokens.css` loads the fonts
+  from `../fonts/`, which resolves to `static/fonts/`.
+- **The hero illustration is inlined.** Inline SVG lets its strokes take the
+  token colours, so it follows the colour scheme. The alternative text comes
+  from `i18n/`, because the file carries only an English one.
+- **English at `/`, German at `/de/`.** English is the primary language;
+  `disableDefaultLanguageRedirect` keeps Hugo from writing a redirect page
+  under `/en/`.

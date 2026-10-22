@@ -50,7 +50,13 @@ Two facts a newcomer gets wrong:
 
 ## Architecture
 
-Not set yet. The Hugo layout is decided with the ticket that creates it.
+The layout is described in [`docs/architecture.md`](docs/architecture.md).
+
+- Own layouts only. No third-party Hugo theme, no Hugo modules.
+- Every page works without JavaScript. Script may only enhance.
+- Every page under `content/` exists as `.en.md` and `.de.md`. English is
+  served at `/`, German at `/de/`.
+- Translatable strings in templates come from `i18n/`, in both languages.
 
 ## Licensing
 
@@ -60,6 +66,8 @@ Not set yet. The Hugo layout is decided with the ticket that creates it.
   licensed under MIT (`LICENSE`).
 - **The names "Homeport" and "data-worx" and their logos** are not licensed
   under either, wherever they are stored.
+- **Design files synced from data-worx/homeport** — the tokens and the
+  illustrations — keep their upstream licence, AGPL-3.0-or-later.
 - Third-party assets — fonts, icons — only under a licence compatible with
   both (MIT, Apache-2.0, BSD, ISC, SIL OFL).
 
@@ -77,4 +85,4 @@ Every row was decided once and is recorded in `devkit.lock.json`, so
 
 | Rule | Deviation | Why |
 |---|---|---|
-| — | none yet | — |
+| `core.language` | `content/` is bilingual, English primary, German a translation; templates, code, commits and tickets stay English | The site addresses German operators, and the imprint and privacy pages must be German |
