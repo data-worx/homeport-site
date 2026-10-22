@@ -10,4 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - The website: a start page in English and German with the Homeport design,
-  self-hosted fonts and no JavaScript, cookies or external requests.
+  self-hosted fonts and no cookies or external requests. It works without
+  JavaScript.
+- The start page describes what Homeport is built to do: its pillars and
+  features, what it offers each team, how it works and its module model.
+- A switch between the light and the dark theme. Without JavaScript the page
+  follows the system setting.

@@ -16,15 +16,19 @@ rules live in the *Architecture* section of
 assets/
   css/tokens.css        generated, from data-worx/homeport
   css/site.css          the page stylesheet
+  icons/                generated: Lucide and Homeport icons, inlined
   images/               generated: lockups and hero illustration
-content/                one page per language: <name>.en.md, <name>.de.md
+  js/theme.js           the theme switch, the only script
+content/                one page per language: <name>.en.md, <name>.de.md;
+                        the start page keeps its sections in front matter
 i18n/                   UI strings, en.toml and de.toml
 layouts/
   baseof.html           the page frame
   home.html             the start page
-  _partials/            head, header, footer, logo
+  _partials/            head, header, footer, logo, icon
 scripts/sync-design.sh  pulls the generated design files
-static/                 generated: fonts with their OFL texts, favicons
+static/                 generated: fonts with their OFL texts, favicons,
+                        licence texts
 hugo.toml
 ```
 
@@ -45,3 +49,14 @@ hugo.toml
 - **English at `/`, German at `/de/`.** English is the primary language;
   `disableDefaultLanguageRedirect` keeps Hugo from writing a redirect page
   under `/en/`.
+- **Icons are inlined, not loaded.** `_partials/icon.html` puts the SVG into
+  the page, so an icon takes the text colour and costs no request. The
+  Lucide licence notice ships as `static/licenses/ISC-Lucide.txt`.
+- **The start page's sections live in front matter.** Each section is a
+  block of structured text in `content/_index.<lang>.md`; `home.html` lays
+  them out. The text stays content under CC BY, the layout stays the same
+  in both languages.
+- **The theme switch only enhances.** Without JavaScript the page follows
+  `prefers-color-scheme` and the switch stays hidden. With it, a few inline
+  lines in `<head>` apply the stored choice before the first paint, and
+  `theme.js` handles the switch and keeps the choice in `localStorage`.
