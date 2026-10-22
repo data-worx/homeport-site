@@ -3,6 +3,11 @@
     <span class="brand">{{ partial "logo.html" "dark" }}</span>
     <nav aria-label="{{ T "navFooter" }}">
       <a href="{{ site.Params.repo }}">GitHub</a>
+      {{- range slice "/impressum" "/datenschutz" }}
+      {{- with site.GetPage . }}
+      <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+      {{- end }}
+      {{- end }}
     </nav>
     <p class="foot-note">{{ T "noTracking" }}</p>
   </div>
