@@ -42,4 +42,16 @@ assets/logos/homeport-icon-180.png           static/apple-touch-icon.png
 assets/logos/homeport-icon-512.png           static/icon-512.png
 FILES
 
+# Icons, inlined by layouts/_partials/icon.html. Lucide ships under ISC, whose
+# notice travels with the site; the hp-* icons are part of Homeport.
+mkdir -p assets/icons static/licenses
+cp "${d}/assets/licenses/ISC-Lucide.txt" static/licenses/ISC-Lucide.txt
+for icon in activity badge-check check download file-text git-branch layers \
+            log-in moon receipt-text shield-check sun terminal; do
+  cp "${d}/assets/icons/lucide/${icon}.svg" "assets/icons/${icon}.svg"
+done
+for icon in hp-module hp-quota; do
+  cp "${d}/assets/icons/homeport/${icon}.svg" "assets/icons/${icon}.svg"
+done
+
 echo "synced design from homeport main at ${sha}"
