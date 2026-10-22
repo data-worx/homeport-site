@@ -36,6 +36,10 @@ Pull the current state of its `main` branch with:
 bash scripts/sync-design.sh
 ```
 
+The imprint and privacy pages show a sample address. To see the real one
+locally, put it into `imprint.local.txt` in the repository root, one line per
+address line. The file is git-ignored and never committed.
+
 ## Licence
 
 | What | Licence |

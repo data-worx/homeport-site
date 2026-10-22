@@ -26,11 +26,14 @@ i18n/                   UI strings, en.toml and de.toml
 layouts/
   baseof.html           the page frame
   home.html             the start page
+  page.html             text pages: imprint, privacy policy
   _partials/            head, header, footer, logo, icon
+  _shortcodes/          imprint-address: the address from imprint.local.txt
 scripts/sync-design.sh  pulls the generated design files
 static/                 generated: fonts with their OFL texts, favicons,
                         licence texts
 hugo.toml
+imprint.local.txt       git-ignored: the imprint address, never committed
 ```
 
 ## Why it is cut this way
@@ -66,3 +69,8 @@ hugo.toml
   `prefers-color-scheme` and the switch stays hidden. With it, a few inline
   lines in `<head>` apply the stored choice before the first paint, and
   `theme.js` handles the switch and keeps the choice in `localStorage`.
+- **The imprint address never enters the repository.** It is the
+  maintainer's own postal address. Committed, it would stay in the history
+  for good and fall under CC BY. The shortcode reads it at build time from
+  the git-ignored `imprint.local.txt` and shows a sample address when the
+  file does not exist, so a fresh clone and the gates work without it.
