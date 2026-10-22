@@ -1,0 +1,12 @@
+{{- /* The postal address for imprint and privacy policy. It is never
+       committed: it comes from the git-ignored imprint.local.txt (one line
+       per address line), which the deploy writes from a secret. Without the
+       file the sample address below is shown. */ -}}
+{{- $lines := slice "Musterstraße 1" "12345 Musterstadt" -}}
+{{- if fileExists "imprint.local.txt" -}}
+  {{- $lines = slice -}}
+  {{- range split (os.ReadFile "imprint.local.txt") "\n" -}}
+    {{- with trim . " \r\t" }}{{ $lines = $lines | append (htmlEscape .) }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- delimit $lines "<br>" | safeHTML -}}

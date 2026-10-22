@@ -12,3 +12,6 @@ AGENTS.local.md
 /public/
 /resources/_gen/
 .hugo_build.lock
+
+# The imprint address: local only, written from a secret on deploy
+imprint.local.txt
