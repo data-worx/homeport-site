@@ -5,3 +5,5 @@ AGENTS.local.md
 # Personal, per-machine devkit overrides.
 .devkit/local.sh
 # <<< devkit:core <<<
+
+.vs
