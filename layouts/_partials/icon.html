@@ -1,0 +1,7 @@
+{{- /* An icon from assets/icons/, inlined so it takes the text colour.
+       Decorative: the text next to it carries the meaning. */ -}}
+{{- with resources.Get (printf "icons/%s.svg" .) -}}
+{{- replaceRE `(?s)<!--.*?-->\s*` "" .Content | replaceRE `<svg ` `<svg class="icon" aria-hidden="true" focusable="false" ` | safeHTML -}}
+{{- else -}}
+{{- errorf "icon %q not found in assets/icons" . -}}
+{{- end -}}

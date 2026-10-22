@@ -42,6 +42,7 @@ bash scripts/sync-design.sh
 |---|---|
 | Content — everything under `content/` | [CC BY 4.0](LICENSE-CONTENT) |
 | Everything else — templates, styles, scripts, configuration | [MIT](LICENSE) |
-| Design tokens and illustration from data-worx/homeport — `assets/css/tokens.css`, `assets/images/hero-home-port.svg` | [AGPL-3.0-or-later](https://github.com/data-worx/homeport/blob/main/LICENSE) |
+| Design tokens, illustrations and `hp-*` icons from data-worx/homeport — `assets/css/tokens.css`, `assets/images/hero-home-port.svg`, `assets/images/architecture-*.svg`, `assets/icons/hp-*.svg` | [AGPL-3.0-or-later](https://github.com/data-worx/homeport/blob/main/LICENSE) |
 | Fonts — Instrument Sans, JetBrains Mono in `static/fonts/` | SIL OFL 1.1, texts next to the fonts |
+| Lucide icons — the other files in `assets/icons/` | ISC, text in `static/licenses/` |
 | The names "Homeport" and "data-worx" and their logos | not licensed |

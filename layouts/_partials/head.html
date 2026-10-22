@@ -6,6 +6,11 @@
 {{ range .AllTranslations }}
 <link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .RelPermalink }}">
 {{ end }}
+{{- /* Applies a stored theme before the first paint, so the page does not
+       flash in the other one. theme.js does the rest. */}}
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+{{ $js := resources.Get "js/theme.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ $css := slice (resources.Get "css/tokens.css") (resources.Get "css/site.css") | resources.Concat "css/site.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">

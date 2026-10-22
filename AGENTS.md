@@ -56,6 +56,7 @@ The layout is described in [`docs/architecture.md`](docs/architecture.md).
 - Every page works without JavaScript. Script may only enhance.
 - Every page under `content/` exists as `.en.md` and `.de.md`. English is
   served at `/`, German at `/de/`.
+- German content addresses the reader as *du*, never as *Sie*.
 - Translatable strings in templates come from `i18n/`, in both languages.
 
 ## Licensing
@@ -66,8 +67,9 @@ The layout is described in [`docs/architecture.md`](docs/architecture.md).
   licensed under MIT (`LICENSE`).
 - **The names "Homeport" and "data-worx" and their logos** are not licensed
   under either, wherever they are stored.
-- **Design files synced from data-worx/homeport** — the tokens and the
-  illustrations — keep their upstream licence, AGPL-3.0-or-later.
+- **Design files synced from data-worx/homeport** — the tokens, the
+  illustrations and the `hp-*` icons — keep their upstream licence,
+  AGPL-3.0-or-later.
 - Third-party assets — fonts, icons — only under a licence compatible with
   both (MIT, Apache-2.0, BSD, ISC, SIL OFL).
 
