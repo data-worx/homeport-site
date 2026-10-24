@@ -3,6 +3,18 @@
 <title>{{ if .IsHome }}{{ site.Title }} — {{ .Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
 <meta name="description" content="{{ .Description }}">
 <meta name="color-scheme" content="light dark">
+{{- /* Link previews: plain meta tags, read by whoever fetches the page.
+       The image is the kit's social preview, the same on every page. */}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ .Description }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ "images/homeport-social-preview.png" | absURL }}">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="{{ T "socialImageAlt" }}">
+<meta name="twitter:card" content="summary_large_image">
 {{ range .AllTranslations }}
 <link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .RelPermalink }}">
 {{ end }}
