@@ -86,6 +86,12 @@ imprint.local.txt       git-ignored: the imprint address, never committed
   never committed. The workflow writes the secret `IMPRINT_ADDRESS` to
   `imprint.local.txt` before the build and fails when it is empty, so the
   sample address cannot go live.
+- **Only a release tag may deploy.** The `github-pages` environment allows
+  tags matching `v*.*.*` and no branch, so the rule holds on GitHub's side
+  too, not only in the workflow's trigger.
+- **Dot directories are uploaded on purpose.** `upload-pages-artifact`
+  drops files starting with a dot by default, which would leave out
+  `.well-known/security.txt`; the workflow sets `include-hidden-files`.
 - **Hugo is pinned and checked.** The workflow installs one Hugo version,
   verified against the release's checksums, and every action is pinned by
   commit SHA, so a build does not change because something upstream did.
