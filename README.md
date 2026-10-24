@@ -59,6 +59,10 @@ The workflow `.github/workflows/deploy.yml` then checks the tag, runs the
 gates and deploys to GitHub Pages. To deploy an existing tag again, start it
 by hand: `gh workflow run deploy.yml -f tag=vX.Y.Z`.
 
+The repository's `github-pages` environment allows only tags matching
+`v*.*.*` to deploy, no branch. GitHub creates it allowing `main` when Pages
+is switched on; a tag deploy is then rejected until the rule is changed.
+
 The workflow takes the imprint address from the repository secret
 `IMPRINT_ADDRESS` and fails when it is empty. Set it from your local file,
 so the address never passes through a terminal or a log:

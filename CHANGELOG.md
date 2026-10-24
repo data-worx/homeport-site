@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-10-24
+
+### Fixed
+
+- `security.txt` is published at `/.well-known/security.txt`; the first
+  release left it out.
+
 ## [0.1.0] - 2026-10-24
 
 ### Added
