@@ -18,3 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   follows the system setting.
 - An imprint and a privacy policy in German and English, linked from the
   footer of every page. The German versions are authoritative.
+- The site is published at <https://homeport.data-worx.de>, deployed from
+  release tags.
+- A `security.txt` at `/.well-known/security.txt` that tells security
+  researchers to write to `security@data-worx.de`.

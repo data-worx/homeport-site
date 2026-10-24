@@ -13,6 +13,8 @@ rules live in the *Architecture* section of
 ## Directory layout
 
 ```
+.github/workflows/
+  deploy.yml            builds a release tag and deploys it to GitHub Pages
 assets/
   css/tokens.css        generated, from data-worx/homeport
   css/site.css          the page stylesheet
@@ -31,7 +33,7 @@ layouts/
   _shortcodes/          imprint-address: the address from imprint.local.txt
 scripts/sync-design.sh  pulls the generated design files
 static/                 generated: fonts with their OFL texts, favicons,
-                        licence texts
+                        licence texts; besides them .well-known/security.txt
 hugo.toml
 imprint.local.txt       git-ignored: the imprint address, never committed
 ```
@@ -74,3 +76,18 @@ imprint.local.txt       git-ignored: the imprint address, never committed
   for good and fall under CC BY. The shortcode reads it at build time from
   the git-ignored `imprint.local.txt` and shows a sample address when the
   file does not exist, so a fresh clone and the gates work without it.
+- **A release deploys, a merge does not.** A merge means a change is done,
+  not that it should go out. The workflow runs on a tag `vX.Y.Z`, refuses a
+  tag outside `main` or without its changelog section, and runs the gates
+  on the tagged commit. This follows the release rules being written in
+  raisr/devkit#28.
+- **Deployed through Actions, never from a branch.** `deploy-pages` takes
+  the build as an artifact, so the built HTML with the imprint address is
+  never committed. The workflow writes the secret `IMPRINT_ADDRESS` to
+  `imprint.local.txt` before the build and fails when it is empty, so the
+  sample address cannot go live.
+- **Hugo is pinned and checked.** The workflow installs one Hugo version,
+  verified against the release's checksums, and every action is pinned by
+  commit SHA, so a build does not change because something upstream did.
+- **`security.txt` expires.** RFC 9116 requires an `Expires` date, at most a
+  year ahead. It has to be moved forward before it passes.
