@@ -86,4 +86,4 @@ Get-Content imprint.local.txt -Raw | gh secret set IMPRINT_ADDRESS
 | Design tokens, illustrations and `hp-*` icons from data-worx/homeport — `assets/css/tokens.css`, `assets/images/hero-home-port.svg`, `assets/images/architecture-*.svg`, `assets/icons/hp-*.svg` | [AGPL-3.0-or-later](https://github.com/data-worx/homeport/blob/main/LICENSE) |
 | Fonts — Instrument Sans, JetBrains Mono in `static/fonts/` | SIL OFL 1.1, texts next to the fonts |
 | Lucide icons — the other files in `assets/icons/` | ISC, text in `static/licenses/` |
-| The names "Homeport" and "data-worx" and their logos | not licensed |
+| The names "Homeport" and "data-worx" and their logos, including the link-preview image `static/images/homeport-social-preview.png` | not licensed |

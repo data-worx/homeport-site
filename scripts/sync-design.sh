@@ -42,6 +42,7 @@ assets/logos/favicon-16.png                  static/favicon-16.png
 assets/logos/favicon-32.png                  static/favicon-32.png
 assets/logos/homeport-icon-180.png           static/apple-touch-icon.png
 assets/logos/homeport-icon-512.png           static/icon-512.png
+assets/social/homeport-social-preview.png    static/images/homeport-social-preview.png
 FILES
 
 # Icons, inlined by layouts/_partials/icon.html. Lucide ships under ISC, whose

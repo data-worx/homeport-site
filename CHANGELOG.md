@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- A shared link to the site shows a preview with the Homeport logo and
+  claim, the page title and its description.
+
 ## [0.1.1] - 2026-10-24
 
 ### Fixed

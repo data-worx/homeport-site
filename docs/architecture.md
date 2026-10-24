@@ -33,7 +33,8 @@ layouts/
   _shortcodes/          imprint-address: the address from imprint.local.txt
 scripts/sync-design.sh  pulls the generated design files
 static/                 generated: fonts with their OFL texts, favicons,
-                        licence texts; besides them .well-known/security.txt
+                        licence texts, the link-preview image; besides them
+                        .well-known/security.txt
 hugo.toml
 imprint.local.txt       git-ignored: the imprint address, never committed
 ```
@@ -67,6 +68,11 @@ imprint.local.txt       git-ignored: the imprint address, never committed
   block of structured text in `content/_index.<lang>.md`; `home.html` lays
   them out. The text stays content under CC BY, the layout stays the same
   in both languages.
+- **Link previews are meta tags only.** Every page carries Open Graph tags
+  and `twitter:card`, read by whoever fetches a shared link; the page
+  itself loads nothing for them. The image is the kit's social preview,
+  one for all pages and both languages, so it needs an absolute URL and
+  stays in `static/`.
 - **The theme switch only enhances.** Without JavaScript the page follows
   `prefers-color-scheme` and the switch stays hidden. With it, a few inline
   lines in `<head>` apply the stored choice before the first paint, and
