@@ -47,6 +47,12 @@ Two facts a newcomer gets wrong:
   again. The script names every file it writes.
 - The gates live in `.devkit/gates.sh`; run them with
   `bash .devkit/gates.sh`.
+- The site is deployed only by `.github/workflows/deploy.yml`, from a
+  release tag `vX.Y.Z` on `main` that has its section in `CHANGELOG.md`.
+  Never on a merge, never from a branch such as `gh-pages`. The process is
+  described in the [README](README.md#publishing).
+- The imprint address reaches the deploy only through the repository
+  secret `IMPRINT_ADDRESS`.
 
 ## Architecture
 

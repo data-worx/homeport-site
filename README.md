@@ -6,9 +6,9 @@ self-hosted platform for deep business modules. Published at
 
 ## Status
 
-A Hugo site with the start page in English and German. It builds, but it is
-not published yet — publishing follows with the imprint and privacy pages
-(see [ROADMAP.md](ROADMAP.md)).
+A Hugo site with the start page, the imprint and the privacy policy in
+English and German, published on GitHub Pages from release tags (see
+[ROADMAP.md](ROADMAP.md)).
 
 ## Working on it
 
@@ -40,6 +40,38 @@ The imprint and privacy pages show a sample address. To see the real one
 locally, put it into `imprint.local.txt` in the repository root, one line per
 address line, ending with the country — the site addresses readers abroad
 as well. The file is git-ignored and never committed.
+
+## Publishing
+
+A merge to `main` does not publish anything. A release does:
+
+1. Rename `## [Unreleased]` in `CHANGELOG.md` to `## [X.Y.Z] - YYYY-MM-DD`
+   in a pull request, and merge it.
+2. Tag the merge commit on `main` and push the tag:
+
+   ```bash
+   git switch main && git pull
+   git tag vX.Y.Z
+   git push origin vX.Y.Z
+   ```
+
+The workflow `.github/workflows/deploy.yml` then checks the tag, runs the
+gates and deploys to GitHub Pages. To deploy an existing tag again, start it
+by hand: `gh workflow run deploy.yml -f tag=vX.Y.Z`.
+
+The workflow takes the imprint address from the repository secret
+`IMPRINT_ADDRESS` and fails when it is empty. Set it from your local file,
+so the address never passes through a terminal or a log:
+
+```bash
+gh secret set IMPRINT_ADDRESS < imprint.local.txt
+```
+
+In PowerShell, where `<` is not available:
+
+```powershell
+Get-Content imprint.local.txt -Raw | gh secret set IMPRINT_ADDRESS
+```
 
 ## Licence
 

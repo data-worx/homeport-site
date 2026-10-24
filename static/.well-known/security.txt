@@ -1,0 +1,5 @@
+Contact: mailto:security@data-worx.de
+Expires: 2027-10-24T00:00:00.000Z
+Policy: https://github.com/data-worx/homeport/blob/main/SECURITY.md
+Preferred-Languages: en, de
+Canonical: https://homeport.data-worx.de/.well-known/security.txt
