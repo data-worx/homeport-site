@@ -89,7 +89,7 @@ modules:
   title: "Module: unsere und deine"
   lead: "Tiefe Module aus dem Homeport-Katalog, und die eigenen APIs deines Unternehmens direkt daneben angedockt. Derselbe Vertrag, dieselbe Plattform, dieselbe Leistungsverrechnung."
   link: "Zum Modulvertrag"
-  url: "https://github.com/data-worx/homeport/tree/main/docs/module-contract"
+  url: "https://github.com/data-worx/homeport/tree/main/docs/reference/module-contract"
 
 licensing:
   title: "Open Source und Lizenzen"
