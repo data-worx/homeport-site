@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- The landing page links to the module contract at its new place in the
+  Homeport repository; the old link returned 404.
+
 ## [0.2.0] - 2026-10-24
 
 ### Added
