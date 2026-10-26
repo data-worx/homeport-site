@@ -19,7 +19,7 @@ DEVKIT_STACKS=""
 # full   every change needs a ticket, a branch, a changelog entry, a pull or
 #        merge request and a review round
 # light  branch and gates only - no ticket, no review round
-DEVKIT_WORKFLOW=light
+DEVKIT_WORKFLOW=full
 
 # Default branch, and who gets assigned to a pull or merge request.
 DEVKIT_MAIN_BRANCH=main
