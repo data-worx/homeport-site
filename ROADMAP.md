@@ -9,6 +9,8 @@ in place.
 
 ## M0 — Scaffold
 
+Done — released in v0.1.0.
+
 The Hugo site exists and builds from the Homeport design. It is not
 published.
 
@@ -24,6 +26,8 @@ Out of scope: publishing, imprint and privacy pages.
 
 ## M1 — Public launch
 
+Done — released in v0.1.0.
+
 The site is public under `homeport.data-worx.de`.
 
 Done when:
@@ -37,6 +41,8 @@ Done when:
 Out of scope: content beyond the start page and the quickstart.
 
 ## M2 — Homeport v0.1
+
+Done — released in v0.3.0.
 
 The site shows that Homeport v0.1 runs.
 
