@@ -1,6 +1,7 @@
 ---
 title: 'unknown-client'
 source: 'docs/reference/problems/unknown-client.md'
+aliases: ['/problems/unknown-client/']
 ---
 `https://homeport.data-worx.de/problems/unknown-client` — status `403`.
 

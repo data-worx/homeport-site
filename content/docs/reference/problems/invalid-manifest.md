@@ -1,6 +1,7 @@
 ---
 title: 'invalid-manifest'
 source: 'docs/reference/problems/invalid-manifest.md'
+aliases: ['/problems/invalid-manifest/']
 ---
 `https://homeport.data-worx.de/problems/invalid-manifest` — status `422`.
 

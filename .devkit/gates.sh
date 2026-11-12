@@ -36,15 +36,40 @@ gate_site() {
   out="$(mktemp -d)"
   hugo build --gc --minify --destination "${out}" > /dev/null || rc=1
   [ "${rc}" -eq 0 ] && { bash scripts/check-site.sh "${out}" || rc=1; }
+  [ "${rc}" -eq 0 ] && { check_problem_uris "${out}" || rc=1; }
   rm -rf "${out}"
   return "${rc}"
+}
+
+# Every problem type page answers at its type URI /problems/<name>/, and
+# /problems/ at their index: the built site has a page there that leads to
+# the documentation.
+check_problem_uris() {
+  local site="$1" docs="content/docs/reference/problems" page name rc=0
+  for page in "${docs}"/*.md; do
+    name="$(basename "${page}" .md)"
+    if [ "${name}" = "_index" ]; then
+      leads_to "${site}/problems/index.html" "/docs/reference/problems/" || rc=1
+    else
+      leads_to "${site}/problems/${name}/index.html" "/docs/reference/problems/${name}/" || rc=1
+    fi
+  done
+  [ "${rc}" -eq 0 ] && echo "every problem type URI leads to its page"
+  return "${rc}"
+}
+
+leads_to() {
+  if ! grep -q "url=$2\"" "$1" 2> /dev/null; then
+    echo "$1: missing or does not lead to $2"
+    return 1
+  fi
 }
 
 # Expectation per gate, printed when a gate fails.
 gate_expectation() {
   case "$1" in
     build) echo "the site builds without warnings or errors" ;;
-    site)  echo "every internal link resolves and nothing loads from another host" ;;
+    site)  echo "every internal link resolves, nothing loads from another host, every problem type URI leads to its page" ;;
   esac
 }
 

@@ -1,6 +1,7 @@
 ---
 title: 'validation'
 source: 'docs/reference/problems/validation.md'
+aliases: ['/problems/validation/']
 ---
 `https://homeport.data-worx.de/problems/validation` — status `400`.
 

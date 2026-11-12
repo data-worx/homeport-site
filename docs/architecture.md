@@ -85,6 +85,13 @@ imprint.local.txt       git-ignored: the imprint address, never committed
   `_index.md`, and each reader directory gets an index titled after its
   heading in `docs/README.md`. That README, `releasing.md` and every
   `AGENTS.md` are not rendered. `content/docs/_index.md` records the tag.
+- **Problem type URIs lead to their page.** Homeport names its problem
+  types `https://homeport.data-worx.de/problems/<name>`. `sync-docs.sh`
+  gives every page under `reference/problems/` that path as an alias, and
+  their index `/problems/`. GitHub Pages cannot redirect, so Hugo writes a
+  page there that moves the browser on with a meta refresh;
+  `layouts/alias.html` keeps that page's links on the site. The gate `site`
+  checks that every problem page has its URI.
 - **The documentation's links are resolved at build time.** Each synced
   document records its path in the tag as `source`. The link hook in
   `layouts/docs/_markup/` resolves a relative link against it: a rendered

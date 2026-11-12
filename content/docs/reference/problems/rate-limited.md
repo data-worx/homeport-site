@@ -1,6 +1,7 @@
 ---
 title: 'rate-limited'
 source: 'docs/reference/problems/rate-limited.md'
+aliases: ['/problems/rate-limited/']
 ---
 `https://homeport.data-worx.de/problems/rate-limited` — status `429`.
 

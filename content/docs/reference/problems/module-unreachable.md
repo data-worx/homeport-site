@@ -1,6 +1,7 @@
 ---
 title: 'module-unreachable'
 source: 'docs/reference/problems/module-unreachable.md'
+aliases: ['/problems/module-unreachable/']
 ---
 `https://homeport.data-worx.de/problems/module-unreachable` — status `502`.
 

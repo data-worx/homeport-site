@@ -1,6 +1,7 @@
 ---
 title: 'unauthorized'
 source: 'docs/reference/problems/unauthorized.md'
+aliases: ['/problems/unauthorized/']
 ---
 `https://homeport.data-worx.de/problems/unauthorized` — status `401`.
 

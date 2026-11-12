@@ -1,6 +1,7 @@
 ---
 title: 'internal'
 source: 'docs/reference/problems/internal.md'
+aliases: ['/problems/internal/']
 ---
 `https://homeport.data-worx.de/problems/internal` — status `500`.
 

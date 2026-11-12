@@ -1,6 +1,7 @@
 ---
 title: 'module-unavailable'
 source: 'docs/reference/problems/module-unavailable.md'
+aliases: ['/problems/module-unavailable/']
 ---
 `https://homeport.data-worx.de/problems/module-unavailable` — status `503`.
 
