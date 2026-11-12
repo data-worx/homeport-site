@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The start page leads with a new claim, "Business services in your own
+  infrastructure – multi-tenant, metered, open source.", and a subline that
+  names what is included. The old claim needed explaining to everyone who
+  read it.
+- The modules section shows three planned examples of business modules:
+  EDIFACT, e-invoicing and bank statement formats.
+
 ### Fixed
 
 - The landing page links to the module contract at its new place in the

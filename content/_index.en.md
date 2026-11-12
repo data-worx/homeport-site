@@ -1,8 +1,9 @@
 ---
 title: "Your data never leaves port."
-description: "Homeport is a self-hosted platform for deep business modules: multi-tenant, metered and open source."
+description: "Business services in your own infrastructure: multi-tenant, metered, open source. Gateway, tenants, authentication, rate limits and usage export included."
 eyebrow: "Open source · AGPL-3.0 · self-hosted"
-lead: "Deep business modules – self-hosted, multi-tenant, open source."
+lead: "Business services in your own infrastructure – multi-tenant, metered, open source."
+subline: "Gateway, tenants, authentication, rate limits and usage export included – add the business modules you need."
 status: "**Pre-alpha.** Nothing runs yet. This page describes what Homeport is being built to do; the [roadmap](https://github.com/data-worx/homeport/blob/main/ROADMAP.md) shows how far it is."
 
 features:
@@ -87,7 +88,14 @@ modules:
   id: modules
   menu: "Modules"
   title: "Modules: ours and yours"
-  lead: "Deep modules from the Homeport catalog, and your company's own APIs docked right next to them. Same contract, same platform, same chargeback."
+  lead: "Modules from the Homeport catalog, and your company's own APIs docked right next to them. Same contract, same platform, same chargeback."
+  examples:
+    - title: "EDIFACT"
+      text: "ORDERS, DESADV, INVOIC"
+    - title: "E-invoicing"
+      text: "XRechnung, ZUGFeRD"
+    - title: "Bank statement formats"
+      text: "CAMT, MT940, SEPA"
   link: "Read the module contract"
   url: "https://github.com/data-worx/homeport/tree/main/docs/reference/module-contract"
 
