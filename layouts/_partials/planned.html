@@ -1,0 +1,9 @@
+{{- /* The `planned` field of a statement on the start page. `true` marks the
+       whole statement; a string names the part that is not there yet and is
+       shown as a line of its own, after the part that runs. Renders that
+       line, or nothing. */ -}}
+{{- with . -}}
+{{- if not (eq (printf "%T" .) "bool") }}
+<p class="later">{{ partial "badge.html" }} <span>{{ . }}</span></p>
+{{- end -}}
+{{- end -}}

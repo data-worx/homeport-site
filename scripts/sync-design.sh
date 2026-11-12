@@ -49,7 +49,7 @@ FILES
 # notice travels with the site; the hp-* icons are part of Homeport.
 mkdir -p assets/icons static/licenses
 cp "${d}/assets/licenses/ISC-Lucide.txt" static/licenses/ISC-Lucide.txt
-for icon in activity badge-check check download file-text git-branch layers \
+for icon in activity badge-check check clock download file-text git-branch layers \
             log-in moon receipt-text shield-check sun terminal; do
   cp "${d}/assets/icons/lucide/${icon}.svg" "assets/icons/${icon}.svg"
 done
