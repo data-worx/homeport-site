@@ -1,6 +1,7 @@
 ---
 title: 'insufficient-scope'
 source: 'docs/reference/problems/insufficient-scope.md'
+aliases: ['/problems/insufficient-scope/']
 ---
 `https://homeport.data-worx.de/problems/insufficient-scope` — status `403`.
 

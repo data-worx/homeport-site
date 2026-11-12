@@ -36,6 +36,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deploying a release again no longer builds the site anew. Each release
   carries its build as an archive, and a redeploy or a rollback publishes
   exactly that archive.
+- A Homeport problem type URI such as
+  `https://homeport.data-worx.de/problems/validation` opened in a browser
+  now leads to the page that explains the type, and `/problems/` to the
+  list of all types, instead of ending in "not found".
 
 ## [0.2.0] - 2026-10-24
 

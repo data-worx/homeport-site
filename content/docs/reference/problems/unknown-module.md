@@ -1,6 +1,7 @@
 ---
 title: 'unknown-module'
 source: 'docs/reference/problems/unknown-module.md'
+aliases: ['/problems/unknown-module/']
 ---
 `https://homeport.data-worx.de/problems/unknown-module` — status `404`.
 

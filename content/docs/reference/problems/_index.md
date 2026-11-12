@@ -2,6 +2,7 @@
 title: 'Problem types'
 weight: 33
 source: 'docs/reference/problems/README.md'
+aliases: ['/problems/']
 ---
 Homeport and its modules answer every error as Problem Details (RFC 9457),
 media type `application/problem+json`. The `type` names the kind of error as

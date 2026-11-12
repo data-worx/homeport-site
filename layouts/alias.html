@@ -1,0 +1,16 @@
+<!doctype html>
+{{- /* The page an alias leaves behind, such as a problem type URI. Hugo's own
+       points at the absolute URL, which reads as a request to another host;
+       this one stays on the site and shows the link for anyone it does not
+       move on. */}}
+<html lang="{{ site.Language.Locale }}">
+<head>
+<meta charset="utf-8">
+<title>{{ .Page.Title }} · {{ site.Title }}</title>
+<link rel="canonical" href="{{ .Page.RelPermalink }}">
+<meta http-equiv="refresh" content="0; url={{ .Page.RelPermalink }}">
+</head>
+<body>
+<p><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></p>
+</body>
+</html>

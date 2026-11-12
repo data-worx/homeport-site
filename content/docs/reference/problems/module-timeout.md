@@ -1,6 +1,7 @@
 ---
 title: 'module-timeout'
 source: 'docs/reference/problems/module-timeout.md'
+aliases: ['/problems/module-timeout/']
 ---
 `https://homeport.data-worx.de/problems/module-timeout` — status `504`.
 

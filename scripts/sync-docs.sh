@@ -14,6 +14,7 @@
 # - moves the first "# " heading into the front matter as the title, orders
 #   each document as docs/README.md lists it, and records its path in the
 #   tag as "source", which the link hook resolves relative links against
+# - gives every problem type page its type URI /problems/<name>/ as an alias
 # - writes an _index.md for each reader directory, titled after its heading
 #   in docs/README.md, and one for /docs/ that records the tag
 set -euo pipefail
@@ -67,6 +68,21 @@ awk -v readers=" ${READERS} " '
 # Quotes a value for a single-quoted YAML scalar.
 yaml() { printf "'%s'" "${1//\'/\'\'}"; }
 
+# Homeport names its problem types https://homeport.data-worx.de/problems/<name>.
+# Each problem page, and their index, gets that path as an alias, so the type
+# URI opened in a browser leads to the page that explains it.
+readonly PROBLEMS="reference/problems"
+alias_of() {
+  local rel="$1" name
+  case "${rel}" in
+    "${PROBLEMS}/README.md") echo "aliases: ['/problems/']" ;;
+    "${PROBLEMS}/"*/*) ;;
+    "${PROBLEMS}/"*.md)
+      name="$(basename "${rel}" .md)"
+      echo "aliases: ['/problems/${name}/']" ;;
+  esac
+}
+
 # Writes a document: front matter with title and weight, then the body
 # without its first "# " heading.
 write_doc() {
@@ -82,6 +98,7 @@ write_doc() {
     echo "title: $(yaml "${title}")"
     [ -n "${weight}" ] && echo "weight: ${weight}"
     echo "source: 'docs/${rel}'"
+    alias_of "${rel}"
     echo "---"
     awk 'done || !/^# / { print; next } { done = 1; getline; if ($0 != "") print }' "${from}"
   } > "${to}"

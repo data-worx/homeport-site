@@ -1,6 +1,7 @@
 ---
 title: 'control-plane-unavailable'
 source: 'docs/reference/problems/control-plane-unavailable.md'
+aliases: ['/problems/control-plane-unavailable/']
 ---
 `https://homeport.data-worx.de/problems/control-plane-unavailable` — status `503`.
 
