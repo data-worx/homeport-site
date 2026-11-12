@@ -50,7 +50,7 @@ Two facts a newcomer gets wrong:
 - The site is deployed only by `.github/workflows/deploy.yml`, from a
   release tag `vX.Y.Z` on `main` that has its section in `CHANGELOG.md`.
   Never on a merge, never from a branch such as `gh-pages`. The process is
-  described in the [README](README.md#publishing).
+  described in [`docs/releasing.md`](docs/releasing.md).
 - The imprint address reaches the deploy only through the repository
   secret `IMPRINT_ADDRESS`.
 
@@ -78,6 +78,18 @@ The layout is described in [`docs/architecture.md`](docs/architecture.md).
   AGPL-3.0-or-later.
 - Third-party assets — fonts, icons — only under a licence compatible with
   both (MIT, Apache-2.0, BSD, ISC, SIL OFL).
+
+## Releasing
+
+- Release model: **trunk with tags** (`core.release-models`). Releases are
+  tagged `vX.Y.Z` on `main`.
+- Artifact: **static site** (`core.release-site`). The tag run builds the
+  site once and attaches it to the GitHub release `vX.Y.Z` as
+  `homeport-site-vX.Y.Z.tar.gz`; every deployment, a rollback included,
+  uploads that archive to GitHub Pages and never builds.
+- Environments: production only, `github-pages`. There is no test
+  environment, so a candidate `vX.Y.Z-rc.N` is neither built nor deployed.
+- The steps are in [`docs/releasing.md`](docs/releasing.md).
 
 ## Domain terms
 

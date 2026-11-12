@@ -6,3 +6,4 @@ binding rules live in [`AGENTS.md`](../AGENTS.md), not here.
 | Document | About |
 |---|---|
 | [`architecture.md`](architecture.md) | The projects, the directory layout and why they are cut this way |
+| [`releasing.md`](releasing.md) | How a tag becomes the live site, and how a release is deployed again |

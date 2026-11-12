@@ -43,39 +43,21 @@ as well. The file is git-ignored and never committed.
 
 ## Publishing
 
-A merge to `main` does not publish anything. A release does:
+A merge to `main` does not publish anything. A release does: cut the
+changelog in a pull request, then tag the merge commit `vX.Y.Z` and push the
+tag. The workflow builds the site once, attaches the build to the GitHub
+release `vX.Y.Z` and deploys exactly that archive.
 
-1. Rename `## [Unreleased]` in `CHANGELOG.md` to `## [X.Y.Z] - YYYY-MM-DD`
-   in a pull request, and merge it.
-2. Tag the merge commit on `main` and push the tag:
-
-   ```bash
-   git switch main && git pull
-   git tag vX.Y.Z
-   git push origin vX.Y.Z
-   ```
-
-The workflow `.github/workflows/deploy.yml` then checks the tag, runs the
-gates and deploys to GitHub Pages. To deploy an existing tag again, start it
-by hand: `gh workflow run deploy.yml -f tag=vX.Y.Z`.
-
-The repository's `github-pages` environment allows only tags matching
-`v*.*.*` to deploy, no branch. GitHub creates it allowing `main` when Pages
-is switched on; a tag deploy is then rejected until the rule is changed.
-
-The workflow takes the imprint address from the repository secret
-`IMPRINT_ADDRESS` and fails when it is empty. Set it from your local file,
-so the address never passes through a terminal or a log:
+To deploy an existing release again — a redeploy or a rollback — start the
+workflow on its tag. It deploys the archive of that release and builds
+nothing:
 
 ```bash
-gh secret set IMPRINT_ADDRESS < imprint.local.txt
+gh workflow run deploy.yml --ref vX.Y.Z
 ```
 
-In PowerShell, where `<` is not available:
-
-```powershell
-Get-Content imprint.local.txt -Raw | gh secret set IMPRINT_ADDRESS
-```
+The steps, the `github-pages` environment and the imprint secret are
+described in [`docs/releasing.md`](docs/releasing.md).
 
 ## Licence
 
