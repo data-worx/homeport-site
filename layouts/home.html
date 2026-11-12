@@ -30,8 +30,10 @@
       {{- range .pillars }}
       <article class="card pillar">
         {{ partial "icon.html" .icon }}
+        {{- if eq (printf "%v" .planned) "true" }}{{ partial "badge.html" }}{{ end }}
         <h3>{{ .title }}</h3>
         <p>{{ .text }}</p>
+        {{- partial "planned.html" .planned }}
       </article>
       {{- end }}
     </div>
@@ -41,6 +43,7 @@
         {{ partial "icon.html" .icon }}
         <h3>{{ .title }}</h3>
         <p>{{ .text }}</p>
+        {{- partial "planned.html" .planned }}
       </div>
       {{- end }}
     </div>
@@ -59,7 +62,13 @@
         <h3>{{ .title }}</h3>
         <ul>
           {{- range .points }}
-          <li>{{ partial "icon.html" "check" }}<span>{{ . | $.RenderString }}</span></li>
+          {{- /* A point is a string, or a map with `text` and `planned`. */}}
+          {{- $p := cond (reflect.IsMap .) . (dict "text" .) }}
+          {{- if eq (printf "%v" $p.planned) "true" }}
+          <li class="is-planned">{{ partial "icon.html" "clock" }}<span>{{ $p.text | $.RenderString }} {{ partial "badge.html" }}</span></li>
+          {{- else }}
+          <li>{{ partial "icon.html" "check" }}<span>{{ $p.text | $.RenderString }}{{ with $p.planned }}<span class="later">{{ partial "badge.html" }} <span>{{ . }}</span></span>{{ end }}</span></li>
+          {{- end }}
           {{- end }}
         </ul>
       </article>
@@ -81,6 +90,7 @@
         <span class="n" aria-hidden="true">{{ add $i 1 }}</span>
         <h3>{{ .title | $.RenderString }}</h3>
         <p>{{ .text }}</p>
+        {{- partial "planned.html" .planned }}
       </li>
       {{- end }}
     </ol>
@@ -118,12 +128,15 @@
       {{- range . }}
       <li class="card">
         {{ partial "icon.html" "hp-module" }}
-        <span class="badge">{{ T "planned" }}</span>
+        {{ partial "badge.html" }}
         <h3>{{ .title }}</h3>
         <p>{{ .text }}</p>
       </li>
       {{- end }}
     </ul>
+    {{- end }}
+    {{- with .poll }}
+    <p class="poll">{{ . | $.RenderString }}</p>
     {{- end }}
     <a class="btn btn-outline" href="{{ .url }}">{{ partial "icon.html" "file-text" }}{{ .link }}</a>
   </div>

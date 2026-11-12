@@ -4,7 +4,7 @@ description: "Fachdienste in deiner eigenen Infrastruktur: mandantenfähig, mit 
 eyebrow: "Open Source · AGPL-3.0 · selbst gehostet"
 lead: "Fachdienste in deiner eigenen Infrastruktur – mandantenfähig, mit Verbrauchsmessung, Open Source."
 subline: "Gateway, Mandanten, Authentifizierung, Rate Limits und Verbrauchsexport inklusive – dock die Fachmodule an, die du brauchst."
-status: "**Pre-Alpha.** Noch läuft nichts. Diese Seite beschreibt, wofür Homeport gebaut wird; wie weit es ist, zeigt die [Roadmap](https://github.com/data-worx/homeport/blob/main/ROADMAP.md)."
+status: "**Alpha · v0.1.0.** Lies das [Release](https://github.com/data-worx/homeport/releases/tag/v0.1.0) und starte es mit dem [Quickstart](https://github.com/data-worx/homeport#quickstart). Was als Nächstes kommt, steht in der [Roadmap](https://github.com/data-worx/homeport/blob/main/ROADMAP.md)."
 
 features:
   id: features
@@ -12,23 +12,27 @@ features:
   pillars:
     - icon: shield-check
       title: "Deine Daten verlassen nie den Hafen."
-      text: "Homeport ist dafür gebaut, in deiner Umgebung zu laufen. Kein Dritter zwischen deinen Systemen und deinen Daten. Kein Nach-Hause-Telefonieren."
+      text: "Homeport läuft in deiner Umgebung. Kein Dritter zwischen deinen Systemen und deinen Daten. Kein Nach-Hause-Telefonieren."
     - icon: receipt-text
       title: "Leistungsverrechnung eingebaut."
-      text: "Die Nutzung soll pro Abteilung, Modul und Einheit gemessen und fürs Controlling oder direkt in dein ERP exportiert werden."
+      text: "Die Nutzung wird pro Abteilung, Modul und Einheit gemessen und fürs Controlling exportiert."
     - icon: hp-module
       title: "Tiefe Module, echte Standards."
       text: "Schwierige Fachstandards, richtig umgesetzt: vollständige Validierung, echte Sonderfälle. Keine Spielzeug-APIs."
+      planned: true
     - icon: layers
       title: "Docke an, was du brauchst."
-      text: "Betreibe nur, was du brauchst, unsere Module oder deine. Katalogmodule und deine internen APIs sollen auf dieselbe Weise andocken, ohne Neustart."
+      text: "Betreibe nur, was du brauchst. Deine internen APIs docken über den Modulvertrag an, ohne Neustart."
+      planned: "Katalogmodule docken auf dieselbe Weise an."
   items:
     - icon: hp-quota
       title: "Faire Nutzung eingebaut."
-      text: "Tarife, Kontingente und Drosselung pro Mandant, damit ein Team nicht alle anderen ausbremst."
+      text: "Tarife und Drosselung pro Mandant, damit ein Team nicht alle anderen ausbremst."
+      planned: "Kontingente pro Mandant."
     - icon: activity
       title: "Beobachtbar ab dem ersten Tag."
-      text: "Dashboards für den Start und OTLP in das Monitoring, das du schon hast."
+      text: "OTLP in das Monitoring, das du schon hast."
+      planned: "Dashboards für den Start."
     - icon: log-in
       title: "Dein Identity Provider."
       text: "Single Sign-on über OIDC, mit Entra ID, Keycloak und anderen."
@@ -49,13 +53,16 @@ team:
       points:
         - "Läuft auf deinen Servern, in deinem Cloud-Tenant oder air-gapped"
         - "Jedes Image signiert, mit SBOM und CVE-Bericht"
-        - "Ein Audit-Log jeder Admin-Aktion"
+        - text: "Ein Audit-Log jeder Admin-Aktion"
+          planned: true
     - eyebrow: "Controlling & Finanzen"
       title: "Wissen, wer was genutzt hat."
       points:
         - "Nutzung pro Abteilung, Modul und Einheit"
-        - "Periode abschließen, als CSV oder JSON exportieren"
-        - "Ein Webhook in dein ERP"
+        - text: "Nutzung als CSV oder JSON exportieren"
+          planned: "Periode abschließen"
+        - text: "Ein Webhook in dein ERP"
+          planned: true
     - eyebrow: "Entwicklung & Betrieb"
       title: "Ein Befehl. Dann läuft es einfach."
       points:
@@ -67,17 +74,18 @@ how:
   id: how
   menu: "So funktioniert es"
   title: "So funktioniert es"
-  lead: "Der geplante Weg vom Download bis zum ersten Modul."
+  lead: "Der Weg vom Download bis zum ersten Modul."
   steps:
     - icon: download
       title: "Holen"
       text: "Die Compose-Datei herunterladen. Die Images sind signiert und kommen aus einer Registry."
     - icon: terminal
       title: "`docker compose up`"
-      text: "Gateway, Registry und Admin-Portal starten. Deinen Identity Provider anbinden."
+      text: "Gateway und Registry starten. Deinen Identity Provider anbinden."
+      planned: "Das Admin-Portal."
     - icon: hp-module
       title: "Module andocken"
-      text: "Aus dem Katalog oder deine eigenen Dienste. Jedes Modul registriert sich selbst und wird geroutet, gemessen und beobachtet."
+      text: "Deine eigenen Dienste, über den Modulvertrag; Katalogmodule docken genauso an. Jedes Modul registriert sich selbst und wird geroutet, gemessen und beobachtet."
   diagram:
     alt: "Architektur: Deine Anwendungen rufen das Homeport-Gateway auf. Das Gateway prüft jeden Aufrufer bei deinem Identity Provider, wendet Drosselung und Verbrauchsmessung an und ruft die angedockten Module mit einem eigenen, kurzlebigen signierten Token auf. Katalogmodule und deine interne API prüfen dieses Token und sprechen nie mit dem Identity Provider. Module registrieren sich bei der Registry. Alle Komponenten senden OTLP-Telemetrie an dein Monitoring."
     catalog: "Aus dem Homeport-Katalog"
@@ -96,6 +104,7 @@ modules:
       text: "XRechnung, ZUGFeRD"
     - title: "Bankformate"
       text: "CAMT, MT940, SEPA"
+  poll: "Welches Modul kommt zuerst? [Stimm in der Umfrage ab](https://github.com/data-worx/homeport/discussions/2) – entschieden wird mit dem Release von Homeport v0.2."
   link: "Zum Modulvertrag"
   url: "https://github.com/data-worx/homeport/tree/main/docs/reference/module-contract"
 

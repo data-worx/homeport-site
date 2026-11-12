@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   read it.
 - The modules section shows three planned examples of business modules:
   EDIFACT, e-invoicing and bank statement formats.
+- The start page describes Homeport v0.1.0 as it runs today: the status
+  reads "Alpha · v0.1.0" and links the release and the quickstart, what
+  runs is written in the present tense, and everything not there yet
+  carries a "Planned" badge. The modules section links the poll that
+  decides the first business module.
 
 ### Fixed
 
