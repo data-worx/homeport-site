@@ -39,6 +39,8 @@ layouts/
 scripts/
   sync-design.sh        pulls the generated design files
   sync-docs.sh          pulls the documentation from a Homeport tag
+  check-site.sh         checks a built site: links resolve, nothing loads
+                        from another host; check-site.test.sh tests it
 static/                 generated: fonts with their OFL texts, favicons,
                         licence texts, the link-preview image; besides them
                         .well-known/security.txt
@@ -95,6 +97,12 @@ imprint.local.txt       git-ignored: the imprint address, never committed
 - **Code blocks are not highlighted.** Hugo's highlighter writes fixed
   inline colours that would ignore the dark theme; plain `<pre><code>`
   takes the token colours.
+- **The built site is checked, not only built.** The gate `site` builds the
+  site as it is deployed and runs `scripts/check-site.sh` over it: every
+  internal link and anchor resolves, and nothing the browser loads —
+  scripts, stylesheets, images, style URLs — comes from another host. The
+  check's own tests run first, so a check that stopped finding anything
+  fails instead of passing.
 - **Link previews are meta tags only.** Every page carries Open Graph tags
   and `twitter:card`, read by whoever fetches a shared link; the page
   itself loads nothing for them. The image is the kit's social preview,
