@@ -7,7 +7,8 @@ platform for business services in your own infrastructure. Published at
 ## Status
 
 A Hugo site with the start page, the imprint and the privacy policy in
-English and German, published on GitHub Pages from release tags (see
+English and German, and the Homeport documentation in English under
+`/docs/`, published on GitHub Pages from release tags (see
 [ROADMAP.md](ROADMAP.md)).
 
 ## Working on it
@@ -34,6 +35,15 @@ Pull the current state of its `main` branch with:
 
 ```bash
 bash scripts/sync-design.sh
+```
+
+The documentation under `/docs/` is written in
+[data-worx/homeport](https://github.com/data-worx/homeport/tree/main/docs)
+too, and comes from a release tag, so it describes a version people run.
+Pull it from a tag with:
+
+```bash
+bash scripts/sync-docs.sh v0.1.0
 ```
 
 The imprint and privacy pages show a sample address. To see the real one
@@ -63,9 +73,10 @@ described in [`docs/releasing.md`](docs/releasing.md).
 
 | What | Licence |
 |---|---|
-| Content — everything under `content/` | [CC BY 4.0](LICENSE-CONTENT) |
+| Content — everything under `content/` but `content/docs/` | [CC BY 4.0](LICENSE-CONTENT) |
 | Everything else — templates, styles, scripts, configuration | [MIT](LICENSE) |
 | Design tokens, illustrations and `hp-*` icons from data-worx/homeport — `assets/css/tokens.css`, `assets/images/hero-home-port.svg`, `assets/images/architecture-*.svg`, `assets/icons/hp-*.svg` | [AGPL-3.0-or-later](https://github.com/data-worx/homeport/blob/main/LICENSE) |
+| The Homeport documentation from data-worx/homeport — `content/docs/` | [AGPL-3.0-or-later](https://github.com/data-worx/homeport/blob/main/LICENSE) |
 | Fonts — Instrument Sans, JetBrains Mono in `static/fonts/` | SIL OFL 1.1, texts next to the fonts |
 | Lucide icons — the other files in `assets/icons/` | ISC, text in `static/licenses/` |
 | The names "Homeport" and "data-worx" and their logos, including the link-preview image `static/images/homeport-social-preview.png` | not licensed |

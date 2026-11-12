@@ -1,0 +1,34 @@
+{{- /* Links in the synced documentation. A relative link is resolved against
+       the document's path in the Homeport tag ("source" in its front
+       matter): a document the site renders gets its page, anything else in
+       the repository - a file outside docs/, or docs/README.md and
+       docs/releasing.md, which are not rendered - gets its file on GitHub at
+       the tag. A link into a reader directory that matches no page is broken
+       and fails the build. */}}
+{{- $dest := .Destination }}
+{{- $u := urls.Parse $dest }}
+{{- $href := $dest }}
+{{- if and (not $u.IsAbs) $u.Path (not (hasPrefix $u.Path "/")) }}
+  {{- $docs := site.GetPage "/docs" }}
+  {{- $target := path.Join (path.Dir .Page.Params.source) $u.Path }}
+  {{- $frag := "" }}
+  {{- with $u.Fragment }}{{ $frag = printf "#%s" . }}{{ end }}
+  {{- $page := false }}
+  {{- if hasPrefix $target "docs/" }}
+    {{- $logical := strings.TrimSuffix "/README" (strings.TrimSuffix ".md" $target) }}
+    {{- $page = site.GetPage (printf "/%s" $logical) }}
+  {{- end }}
+  {{- with $page }}
+    {{- $href = printf "%s%s" .RelPermalink $frag }}
+  {{- else }}
+    {{- $reader := index (split $target "/") 1 }}
+    {{- if and (hasPrefix $target "docs/") (site.GetPage (printf "/docs/%s" $reader)) }}
+      {{- warnf "%s: broken link %q" .Page.Params.source $dest }}
+    {{- else if hasPrefix $target "../" }}
+      {{- warnf "%s: link %q leaves the repository" .Page.Params.source $dest }}
+    {{- end }}
+    {{- $href = printf "%s/blob/%s/%s%s" site.Params.repo $docs.Params.homeportVersion $target $frag }}
+  {{- end }}
+{{- end -}}
+<a href="{{ $href }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text }}</a>
+{{- /* chomp trailing newline */ -}}

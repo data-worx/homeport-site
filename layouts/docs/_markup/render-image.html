@@ -1,0 +1,14 @@
+{{- /* Images in the synced documentation sit next to the document, in the
+       directory of its section, and are published from there. An image that
+       is not found fails the build. */}}
+{{- $src := .Destination }}
+{{- $u := urls.Parse $src }}
+{{- if not $u.IsAbs }}
+  {{- with .Page.CurrentSection.Resources.Get $u.Path }}
+    {{- $src = .RelPermalink }}
+  {{- else }}
+    {{- warnf "%s: image %q not found" .Page.Params.source .Destination }}
+  {{- end }}
+{{- end -}}
+<img src="{{ $src }}" alt="{{ .PlainText }}"{{ with .Title }} title="{{ . }}"{{ end }}>
+{{- /* chomp trailing newline */ -}}

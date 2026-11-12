@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- The Homeport documentation is on the site under `/docs/`, taken from the
+  Homeport v0.1.0 release, so it describes the version you run. It is
+  arranged by reader — operators, module developers, API consumers,
+  architecture with the ADRs, and reference — and linked from the header
+  in both languages; the documentation itself is English only.
+
 ### Changed
 
 - The start page leads with a new claim, "Business services in your own

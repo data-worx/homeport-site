@@ -20,3 +20,8 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT"]
 # Language.Locale and Language.Label.
 [module.hugoVersion]
   min = "0.158.0"
+
+# Code blocks stay plain <pre><code>: Chroma's inline colours are fixed and
+# would ignore the dark theme.
+[markup.highlight]
+  codeFences = false
