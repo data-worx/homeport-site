@@ -345,6 +345,53 @@ code {
   background: var(--surface-sunken);
 }
 
+/* Documentation: the article, the reader navigation beside it. */
+.docs {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: var(--space-12);
+  padding: var(--space-12) 0 var(--space-24);
+}
+.doc { grid-column: 2; grid-row: 1; max-width: 760px; min-width: 0; }
+.doc h2 { margin: var(--space-10) 0 var(--space-3); font: 600 22px/30px var(--font-sans); }
+.doc h3 { margin: var(--space-8) 0 var(--space-2); font: 600 18px/26px var(--font-sans); }
+.doc h4 { margin: var(--space-6) 0 var(--space-2); font: 600 16px/24px var(--font-sans); }
+.doc p, .doc ul, .doc ol, .doc table, .doc pre, .doc blockquote { margin: 0 0 var(--space-4); }
+.doc li { margin-bottom: var(--space-1); }
+.doc .lead2 { color: var(--ink-muted); }
+.doc pre {
+  padding: var(--space-4);
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  font-size: 14px;
+  line-height: 22px;
+}
+.doc pre code { padding: 0; background: none; font-size: inherit; }
+.doc table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 22px;
+}
+.doc th, .doc td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.doc th { border-bottom-color: var(--line-strong); }
+.doc blockquote { padding-left: var(--space-4); border-left: 3px solid var(--line-strong); color: var(--ink-muted); }
+.doc-reader h2 a { color: inherit; text-decoration: none; }
+.doc-reader h2 a:hover { color: var(--primary); }
+.doc-source { margin-top: var(--space-12); font-size: 14px; }
+
+.docnav { grid-column: 1; grid-row: 1; font-size: 14px; line-height: 20px; }
+.docnav a { color: var(--ink-muted); text-decoration: none; }
+.docnav a:hover { color: var(--primary); }
+.docnav a[aria-current="page"], .docnav a.is-in { color: var(--primary); font-weight: 600; }
+.docnav-home { display: block; font-weight: 600; }
+.docnav-ver { color: var(--ink-muted); font: 500 12px var(--font-mono); }
+.docnav-h { margin: var(--space-6) 0 var(--space-2); font-weight: 600; }
+.docnav-h a { color: var(--ink); }
+.docnav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-1); }
+
 /* Footer: stays dark in both themes. */
 .foot {
   background: var(--appbar);
@@ -372,6 +419,10 @@ code {
   .menu { display: none; }
   .features { grid-template-columns: repeat(2, 1fr); }
   .team, .steps, .examples, .lic { grid-template-columns: 1fr 1fr; }
+  /* The navigation follows the article, so it needs no script to fold. */
+  .docs { grid-template-columns: minmax(0, 1fr); gap: var(--space-10); }
+  .doc, .docnav { grid-column: 1; grid-row: auto; }
+  .docnav { padding-top: var(--space-6); border-top: 1px solid var(--line); }
 }
 
 @media (max-width: 599.98px) {

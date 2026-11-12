@@ -14,6 +14,10 @@
     </nav>
     {{- end }}
     <nav class="top-nav" aria-label="{{ T "navMain" }}">
+      {{- /* The documentation is English only; the German pages link to it. */}}
+      {{- with hugo.Sites.Default.GetPage "/docs" }}
+      <a href="{{ .RelPermalink }}"{{ if ne .Language.Lang site.Language.Lang }} hreflang="{{ .Language.Locale }}"{{ end }}>{{ T "navDocs" }}</a>
+      {{- end }}
       {{- range .Translations }}
       <a href="{{ .RelPermalink }}" hreflang="{{ .Language.Locale }}" lang="{{ .Language.Locale }}">{{ .Language.Label }}</a>
       {{- end }}

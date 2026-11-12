@@ -1,0 +1,83 @@
+---
+title: 'Calling a module'
+weight: 20
+source: 'docs/api-consumers/calling-a-module.md'
+---
+Every module is reached through the gateway, the one entry point of a Homeport
+installation. A module has no address of its own that a caller could use.
+Every call carries a bearer token; see [obtaining a token](obtaining-a-token.md).
+
+## The URL
+
+```text
+https://<gateway>/modules/{moduleId}/{path}
+```
+
+- **`<gateway>`** is the address the operator gives you.
+- **`{moduleId}`** names the module, such as `echo`. It is the `id` the module
+  declares in its manifest.
+- **`{path}`** is the route inside the module, as its OpenAPI document lists
+  it. It always starts with the major version of the module's API, such as
+  `/v1/echo`.
+
+The gateway removes `/modules/{moduleId}` and forwards the rest. A request to
+`/modules/echo/v1/echo` reaches Echo as `/v1/echo`. Only the routes a module
+declares in its manifest are forwarded. A path that names no module, or a
+route the module does not declare, is answered with `404` and the problem type
+[`unknown-module`](../reference/problems/unknown-module.md); every error is
+Problem Details, see [errors](errors.md).
+
+The module id `platform` is reserved: `/platform/{path}` leads to Homeport's
+own endpoints, never to a module. See
+[ADR-0013](../architecture/adr/0013-url-scheme-and-api-versioning.md).
+
+## Versions
+
+A module keeps a major version of its API backwards compatible. A breaking
+change appears as a new major version next to the old one — `/v2/…` beside
+`/v1/…` — under the same module id, so you move when you are ready.
+
+## Request and response types in .NET
+
+The request and response types of every platform API and every catalog
+module live in `Homeport.Shared.Client`, which references nothing else. The
+namespace names the module and the major version of its API: Echo's
+`GET /v1/request` answers with
+`Homeport.Shared.Client.Modules.Echo.V1.ReceivedRequestResponse`.
+
+`Homeport.Shared.Client` is published together with the SDK, under the same
+version. Until it is published as a package, reference the project
+`src/Shared/Homeport.Shared.Client` directly.
+
+## What the gateway changes on the way
+
+- **`X-Homeport-*` headers are removed.** They are reserved for Homeport; one
+  you send never reaches the module.
+- **`traceparent` is kept.** Send a W3C `traceparent` and the module's work
+  joins your trace.
+- Everything else — method, query, body, content type and your other headers —
+  is forwarded unchanged.
+- **Error responses are held to one format** on the way back: a 5xx body and
+  a body that is not Problem Details are replaced. See [errors](errors.md).
+
+## Try it with Echo
+
+Echo returns whatever it is sent. With Homeport running locally
+([running Homeport locally](../operators/running-locally.md)), `<gateway>`
+the gateway's address from there and `<access token>` a token as
+[obtaining a token](obtaining-a-token.md) describes:
+
+```bash
+curl -s -X POST -H 'Authorization: Bearer <access token>' \
+  -H 'Content-Type: application/json' \
+  -d '{"hello":"Homeport"}' http://<gateway>/modules/echo/v1/echo
+```
+
+```json
+{"hello":"Homeport"}
+```
+
+`GET /modules/echo/v1/request` answers with the headers Echo received, which
+shows what the gateway forwards, and `GET /modules/echo/v1/caller` with the
+tenant, client, subject and scopes the gateway's module token names. The
+token needs the scope `echo.invoke`.

@@ -45,6 +45,10 @@ Two facts a newcomer gets wrong:
   branch of `data-worx/homeport`; what is on `main` applies. They are
   generated files: never edit them by hand, change them upstream and sync
   again. The script names every file it writes.
+- The Homeport documentation under `content/docs/` is pulled with
+  `scripts/sync-docs.sh vX.Y.Z` from a release tag of `data-worx/homeport`,
+  never from a branch or a candidate. It is generated: never edit it here,
+  change it upstream and sync again.
 - The gates live in `.devkit/gates.sh`; run them with
   `bash .devkit/gates.sh`.
 - The site is deployed only by `.github/workflows/deploy.yml`, from a
@@ -61,21 +65,22 @@ The layout is described in [`docs/architecture.md`](docs/architecture.md).
 - Own layouts only. No third-party Hugo theme, no Hugo modules.
 - Every page works without JavaScript. Script may only enhance.
 - Every page under `content/` exists as `.en.md` and `.de.md`. English is
-  served at `/`, German at `/de/`.
+  served at `/`, German at `/de/`. The exception is `content/docs/`: the
+  synced documentation is English only, and the German pages link to it.
 - German content addresses the reader as *du*, never as *Sie*.
 - Translatable strings in templates come from `i18n/`, in both languages.
 
 ## Licensing
 
-- **Content** — everything under `content/` — is licensed under CC BY 4.0
-  (`LICENSE-CONTENT`).
+- **Content** — everything under `content/` but `content/docs/` — is
+  licensed under CC BY 4.0 (`LICENSE-CONTENT`).
 - **Everything else** — templates, styles, scripts, configuration — is
   licensed under MIT (`LICENSE`).
 - **The names "Homeport" and "data-worx" and their logos** are not licensed
   under either, wherever they are stored.
-- **Design files synced from data-worx/homeport** — the tokens, the
-  illustrations and the `hp-*` icons — keep their upstream licence,
-  AGPL-3.0-or-later.
+- **Files synced from data-worx/homeport** — the tokens, the
+  illustrations, the `hp-*` icons and the documentation in `content/docs/` —
+  keep their upstream licence, AGPL-3.0-or-later.
 - Third-party assets — fonts, icons — only under a licence compatible with
   both (MIT, Apache-2.0, BSD, ISC, SIL OFL).
 

@@ -1,0 +1,16 @@
+{{- /* The documentation by reader: each reader section with its documents.
+       The page in view is marked; so is the section it belongs to. */}}
+{{- $cur := . }}
+{{- with site.GetPage "/docs" }}
+<nav class="docnav" aria-label="{{ T "docsNav" }}">
+  <a class="docnav-home" href="{{ .RelPermalink }}"{{ if $cur.Eq . }} aria-current="page"{{ end }}>{{ .Title }} <span class="docnav-ver">{{ .Params.homeportVersion }}</span></a>
+  {{- range .Sections }}
+  <p class="docnav-h"><a href="{{ .RelPermalink }}"{{ if $cur.Eq . }} aria-current="page"{{ end }}>{{ .Title }}</a></p>
+  <ul>
+    {{- range .Pages }}
+    <li><a href="{{ .RelPermalink }}"{{ if $cur.Eq . }} aria-current="page"{{ else if $cur.IsDescendant . }} class="is-in"{{ end }}>{{ .LinkTitle }}</a></li>
+    {{- end }}
+  </ul>
+  {{- end }}
+</nav>
+{{- end }}

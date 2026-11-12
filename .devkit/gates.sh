@@ -23,16 +23,34 @@ gate_build() {
   return "${rc}"
 }
 
+# Builds the site as it is deployed and checks it: every internal link
+# resolves and nothing loads from another host. The check's own tests run
+# first, so a check that stopped finding anything cannot pass.
+gate_site() {
+  if [ ! -f hugo.toml ]; then
+    echo "no hugo.toml - the Hugo site does not exist yet"
+    return 77
+  fi
+  bash scripts/check-site.test.sh || return 1
+  local out rc=0
+  out="$(mktemp -d)"
+  hugo build --gc --minify --destination "${out}" > /dev/null || rc=1
+  [ "${rc}" -eq 0 ] && { bash scripts/check-site.sh "${out}" || rc=1; }
+  rm -rf "${out}"
+  return "${rc}"
+}
+
 # Expectation per gate, printed when a gate fails.
 gate_expectation() {
   case "$1" in
     build) echo "the site builds without warnings or errors" ;;
+    site)  echo "every internal link resolves and nothing loads from another host" ;;
   esac
 }
 
 # --- runner, do not edit below unless you know why ---------------------------
 
-GATES="build"
+GATES="build site"
 
 # A gate returns 77 when it does not apply to this repository; its last line of
 # output says why.

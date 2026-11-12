@@ -8,7 +8,7 @@ rules live in the *Architecture* section of
 
 | Project | Role | May depend on |
 |---|---|---|
-| Hugo site | Builds the static website from `content/`, `layouts/` and the synced design files | the generated design files from data-worx/homeport |
+| Hugo site | Builds the static website from `content/`, `layouts/` and the synced design files | the generated design files from data-worx/homeport, and its documentation at a release tag |
 
 ## Directory layout
 
@@ -24,14 +24,23 @@ assets/
   js/theme.js           the theme switch, the only script
 content/                one page per language: <name>.en.md, <name>.de.md;
                         the start page keeps its sections in front matter
+  docs/                 generated: the Homeport documentation of a release
+                        tag, English only
 i18n/                   UI strings, en.toml and de.toml
 layouts/
   baseof.html           the page frame
   home.html             the start page
   page.html             text pages: imprint, privacy policy
-  _partials/            head, header, footer, logo, icon
+  docs/                 the documentation: section and page layouts, and
+                        render hooks for its links and images
+  _partials/            head, header, footer, logo, icon, the
+                        documentation's navigation and source link
   _shortcodes/          imprint-address: the address from imprint.local.txt
-scripts/sync-design.sh  pulls the generated design files
+scripts/
+  sync-design.sh        pulls the generated design files
+  sync-docs.sh          pulls the documentation from a Homeport tag
+  check-site.sh         checks a built site: links resolve, nothing loads
+                        from another host; check-site.test.sh tests it
 static/                 generated: fonts with their OFL texts, favicons,
                         licence texts, the link-preview image; besides them
                         .well-known/security.txt
@@ -68,6 +77,32 @@ imprint.local.txt       git-ignored: the imprint address, never committed
   block of structured text in `content/_index.<lang>.md`; `home.html` lays
   them out. The text stays content under CC BY, the layout stays the same
   in both languages.
+- **The documentation comes from a release tag.** An operator reads the
+  documentation of the version they run, not of a `main` that is ahead of
+  every release. `scripts/sync-docs.sh` copies the five reader directories
+  of `docs/` from the tag into `content/docs/` and only reshapes what Hugo
+  needs: the first heading becomes the title, `README.md` becomes
+  `_index.md`, and each reader directory gets an index titled after its
+  heading in `docs/README.md`. That README, `releasing.md` and every
+  `AGENTS.md` are not rendered. `content/docs/_index.md` records the tag.
+- **The documentation's links are resolved at build time.** Each synced
+  document records its path in the tag as `source`. The link hook in
+  `layouts/docs/_markup/` resolves a relative link against it: a rendered
+  document gets its page, anything else in the repository its file on
+  GitHub at the tag. A link into a reader directory that matches no page
+  fails the build, so a rename upstream cannot leave a dead link here.
+- **The documentation is English only.** It is written once, in English,
+  upstream. The German header links to it with `hreflang="en"` rather than
+  showing a translation that does not exist.
+- **Code blocks are not highlighted.** Hugo's highlighter writes fixed
+  inline colours that would ignore the dark theme; plain `<pre><code>`
+  takes the token colours.
+- **The built site is checked, not only built.** The gate `site` builds the
+  site as it is deployed and runs `scripts/check-site.sh` over it: every
+  internal link and anchor resolves, and nothing the browser loads —
+  scripts, stylesheets, images, style URLs — comes from another host. The
+  check's own tests run first, so a check that stopped finding anything
+  fails instead of passing.
 - **Link previews are meta tags only.** Every page carries Open Graph tags
   and `twitter:card`, read by whoever fetches a shared link; the page
   itself loads nothing for them. The image is the kit's social preview,
