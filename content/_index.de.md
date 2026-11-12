@@ -1,8 +1,9 @@
 ---
 title: "Deine Daten verlassen nie den Hafen."
-description: "Homeport ist eine selbst gehostete Plattform für tiefe Fachmodule: mandantenfähig, mit Verbrauchsmessung und Open Source."
+description: "Fachdienste in deiner eigenen Infrastruktur: mandantenfähig, mit Verbrauchsmessung, Open Source. Gateway, Mandanten, Authentifizierung, Rate Limits und Verbrauchsexport inklusive."
 eyebrow: "Open Source · AGPL-3.0 · selbst gehostet"
-lead: "Tiefe Fachmodule – selbst gehostet, mandantenfähig, Open Source."
+lead: "Fachdienste in deiner eigenen Infrastruktur – mandantenfähig, mit Verbrauchsmessung, Open Source."
+subline: "Gateway, Mandanten, Authentifizierung, Rate Limits und Verbrauchsexport inklusive – dock die Fachmodule an, die du brauchst."
 status: "**Pre-Alpha.** Noch läuft nichts. Diese Seite beschreibt, wofür Homeport gebaut wird; wie weit es ist, zeigt die [Roadmap](https://github.com/data-worx/homeport/blob/main/ROADMAP.md)."
 
 features:
@@ -87,7 +88,14 @@ modules:
   id: modules
   menu: "Module"
   title: "Module: unsere und deine"
-  lead: "Tiefe Module aus dem Homeport-Katalog, und die eigenen APIs deines Unternehmens direkt daneben angedockt. Derselbe Vertrag, dieselbe Plattform, dieselbe Leistungsverrechnung."
+  lead: "Module aus dem Homeport-Katalog, und die eigenen APIs deines Unternehmens direkt daneben angedockt. Derselbe Vertrag, dieselbe Plattform, dieselbe Leistungsverrechnung."
+  examples:
+    - title: "EDIFACT"
+      text: "ORDERS, DESADV, INVOIC"
+    - title: "E-Rechnung"
+      text: "XRechnung, ZUGFeRD"
+    - title: "Bankformate"
+      text: "CAMT, MT940, SEPA"
   link: "Zum Modulvertrag"
   url: "https://github.com/data-worx/homeport/tree/main/docs/reference/module-contract"
 

@@ -1,7 +1,7 @@
 # homeport-site
 
 The project website of [Homeport](https://github.com/data-worx/homeport), the
-self-hosted platform for deep business modules. Published at
+platform for business services in your own infrastructure. Published at
 [homeport.data-worx.de](https://homeport.data-worx.de).
 
 ## Status

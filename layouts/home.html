@@ -4,6 +4,9 @@
     <p class="eyebrow">{{ .Params.eyebrow }}</p>
     <h1 class="display">{{ .Title }}</h1>
     <p class="lead">{{ .Params.lead }}</p>
+    {{- with .Params.subline }}
+    <p class="subline">{{ . }}</p>
+    {{- end }}
     <p class="status">{{ .Params.status | .RenderString }}</p>
     <div class="ctas">
       <a class="btn btn-accent" href="{{ site.Params.repo }}#readme">{{ T "getStarted" }}</a>
@@ -110,6 +113,18 @@
   <div class="wrap">
     <h2 class="h1">{{ .title }}</h2>
     <p class="lead2">{{ .lead }}</p>
+    {{- with .examples }}
+    <ul class="examples">
+      {{- range . }}
+      <li class="card">
+        {{ partial "icon.html" "hp-module" }}
+        <span class="badge">{{ T "planned" }}</span>
+        <h3>{{ .title }}</h3>
+        <p>{{ .text }}</p>
+      </li>
+      {{- end }}
+    </ul>
+    {{- end }}
     <a class="btn btn-outline" href="{{ .url }}">{{ partial "icon.html" "file-text" }}{{ .link }}</a>
   </div>
 </section>
