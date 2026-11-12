@@ -1,6 +1,11 @@
-# Builds the site from a release tag and publishes it on GitHub Pages.
-# A merge to main does not deploy; pushing a tag vX.Y.Z does. Candidate
-# tags (vX.Y.Z-rc.N) are not deployed while there is no test environment.
+# Releases the site from a tag vX.Y.Z and deploys it on GitHub Pages.
+#
+# Pushing the tag runs both jobs: `release` builds the site once and attaches
+# the build as an archive to the GitHub release vX.Y.Z, `deploy` uploads that
+# archive to Pages. Starting the workflow by hand on a tag runs `deploy` only:
+# it deploys the archive of that release again and never builds
+# (core.release-site). A merge to main does not deploy. Candidate tags
+# (vX.Y.Z-rc.N) are not released while there is no test environment.
 name: Deploy
 
 on:
@@ -8,15 +13,8 @@ on:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
   workflow_dispatch:
-    inputs:
-      tag:
-        description: "Existing release tag to deploy again, e.g. v0.1.0"
-        required: true
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+permissions: {}
 
 concurrency:
   group: pages
@@ -24,22 +22,18 @@ concurrency:
 
 env:
   HUGO_VERSION: "0.168.0"
-  TAG: ${{ inputs.tag || github.ref_name }}
+  TAG: ${{ github.ref_name }}
+  ARCHIVE: homeport-site-${{ github.ref_name }}.tar.gz
 
 jobs:
-  build:
+  release:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Check the tag format
-        run: |
-          if ! [[ "${TAG}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "::error::'${TAG}' is not a release tag vX.Y.Z"
-            exit 1
-          fi
-
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: refs/tags/${{ env.TAG }}
           fetch-depth: 0
 
       - name: Check that the tag is on main
@@ -83,18 +77,57 @@ jobs:
       - name: Build
         run: hugo build --gc --minify --panicOnWarning
 
-      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
-        with:
-          path: public
-          # Keeps .well-known/security.txt, which the action drops otherwise.
-          include-hidden-files: true
+      # tar keeps hidden files such as .well-known/security.txt.
+      - name: Pack the build
+        run: tar -czf "${RUNNER_TEMP}/${ARCHIVE}" -C public .
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          awk -v head="## [${TAG#v}]" '
+            index($0, head) == 1 { found = 1; next }
+            found && /^## \[/ { exit }
+            found { print }
+          ' CHANGELOG.md > "${RUNNER_TEMP}/notes.md"
+          gh release create "${TAG}" "${RUNNER_TEMP}/${ARCHIVE}" \
+            --verify-tag --title "${TAG}" --notes-file "${RUNNER_TEMP}/notes.md"
 
   deploy:
-    needs: build
+    needs: release
+    if: >-
+      !cancelled() && (needs.release.result == 'success' ||
+      (github.event_name == 'workflow_dispatch' && needs.release.result == 'skipped'))
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Check the tag
+        run: |
+          if [ "${{ github.ref_type }}" != "tag" ] || ! [[ "${TAG}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::'${TAG}' is not a release tag vX.Y.Z; start the workflow on the tag"
+            exit 1
+          fi
+
+      - name: Fetch the release archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download "${TAG}" --repo "${GITHUB_REPOSITORY}" \
+            --pattern "${ARCHIVE}" --dir "${RUNNER_TEMP}"
+          mkdir site
+          tar -xzf "${RUNNER_TEMP}/${ARCHIVE}" -C site
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site
+          # Keeps .well-known/security.txt, which the action drops otherwise.
+          include-hidden-files: true
+
       - id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

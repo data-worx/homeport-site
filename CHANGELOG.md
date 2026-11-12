@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The landing page links to the module contract at its new place in the
   Homeport repository; the old link returned 404.
+- Deploying a release again no longer builds the site anew. Each release
+  carries its build as an archive, and a redeploy or a rollback publishes
+  exactly that archive.
 
 ## [0.2.0] - 2026-10-24
 
