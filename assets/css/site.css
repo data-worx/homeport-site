@@ -187,8 +187,8 @@ img { max-width: 100%; height: auto; }
   margin: var(--space-4) 0 0;
   max-width: 620px;
   padding: var(--space-3) var(--space-4);
-  border-left: var(--border-strong) solid var(--warning);
-  background: var(--warning-soft);
+  border-left: var(--border-strong) solid var(--info);
+  background: var(--info-soft);
   color: var(--ink);
   font-size: 15px;
   line-height: 22px;
