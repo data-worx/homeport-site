@@ -1,30 +1,30 @@
 {
   "source": "https://github.com/raisr/devkit",
-  "version": { "commit": "989066c", "date": "2026-10-26" },
+  "version": { "commit": "50d9e01", "date": "2026-11-10" },
   "bootstrappedAt": "2026-10-19",
   "flavors": { "stacks": [], "forge": "github" },
   "files": [
-    { "path": "AGENTS.core.md", "from": "core/AGENTS.core.md", "mode": "managed", "hash": "6fa1c8adb37014b57c5098407b38759c011f4a0a" },
+    { "path": "AGENTS.core.md", "from": "core/AGENTS.core.md", "mode": "managed", "hash": "88efccf5c23446231be966f7db11b2faeaccd613" },
     { "path": ".gitattributes", "from": "core/gitattributes.block", "mode": "block", "hash": "ae43fabd3c3bc557f11f6b8825fade04ccd4932e", "marker": "devkit:core" },
     { "path": ".editorconfig", "from": "core/editorconfig.block", "mode": "block", "hash": "2c002993f8f9ecb549bff090be1847036c171dc7", "marker": "devkit:core" },
     { "path": ".gitignore", "from": "core/gitignore.block", "mode": "block", "hash": "c82f916f9a1c57f7f7ee55ac949ed0613db652b8", "marker": "devkit:core" },
     { "path": ".claude/skills/commit-message/SKILL.md", "from": "core/skills/commit-message/SKILL.md", "mode": "managed", "hash": "03c47cf906778cfdedaac834644bcefa81d1a58b" },
     { "path": ".claude/skills/commit-message/collect.sh", "from": "core/skills/commit-message/collect.sh", "mode": "managed", "hash": "5b1f3188b10aec8afdddd5788a46f7b749b15768" },
-    { "path": ".claude/skills/create-issue/SKILL.md", "from": "core/skills/create-issue/SKILL.md", "mode": "managed", "hash": "d17beb50d31891d24aba8b8f089505b10615c0b5" },
-    { "path": ".claude/skills/create-issue/context.sh", "from": "core/skills/create-issue/context.sh", "mode": "managed", "hash": "73696038236609737f68c2b57b05466200a226d8" },
+    { "path": ".claude/skills/create-issue/SKILL.md", "from": "core/skills/create-issue/SKILL.md", "mode": "managed", "hash": "c5d0e36cd1446755bccf8af7283c422077782ca6" },
+    { "path": ".claude/skills/create-issue/context.sh", "from": "core/skills/create-issue/context.sh", "mode": "managed", "hash": "ded3af16487f6d73f3f194e8bd8e2ee98b9a61ba" },
     { "path": ".claude/skills/devkit-sync/SKILL.md", "from": "core/skills/devkit-sync/SKILL.md", "mode": "managed", "hash": "4b6b3b61c2e5ebc12d9f4e3d5362f411e7d3d0b6" },
     { "path": ".claude/skills/devkit-sync/collect.sh", "from": "core/skills/devkit-sync/collect.sh", "mode": "managed", "hash": "efaef9b8fa461de31fee558e8276fa6a2ff4f0b4" },
     { "path": ".claude/skills/implement-feature/SKILL.md", "from": "core/skills/implement-feature/SKILL.md", "mode": "managed", "hash": "9a8c6b96aaa43daf288a3cfc1f951e121b260d0e" },
     { "path": "CLAUDE.md", "from": "core/templates/CLAUDE.md", "mode": "template", "hash": "d8863f2c65063c92f9e7026d531995ffd4f19c25" },
-    { "path": "AGENTS.md", "from": "core/templates/AGENTS.md", "mode": "template", "hash": "95e5e2990b6cdaa34b6aae051c84766f338d56fd" },
+    { "path": "AGENTS.md", "from": "core/templates/AGENTS.md", "mode": "template", "hash": "ac8efb1f7a13ecf0b7b7495589c43660b62af7e1" },
     { "path": "AGENTS.local.md", "from": "core/templates/AGENTS.local.md", "mode": "template", "hash": "547457001410d04343a72ae72789713ed8687281" },
     { "path": "CHANGELOG.md", "from": "core/templates/CHANGELOG.md", "mode": "template", "hash": "ca7850e9ccc648c4b5d8376cb7da1d54df282f69" },
     { "path": "ROADMAP.md", "from": "core/templates/ROADMAP.md", "mode": "template", "hash": "6cdefe256bdf23748b0744fef3ef4c7c0dfbf0fb" },
     { "path": "docs/README.md", "from": "core/templates/docs/README.md", "mode": "template", "hash": "7c22a3628ab1de3f237e1d9dd5c98b45b0f2e6c0" },
     { "path": "docs/architecture.md", "from": "core/templates/docs/architecture.md", "mode": "template", "hash": "a4136b98f85ce47668c8e01b8f7393c80544c4c4" },
     { "path": ".devkit/config.sh", "from": "core/templates/config.sh", "mode": "template", "hash": "0012f8cd2066502b9d47325a2bdf00758ef9b5d1" },
-    { "path": "AGENTS.github.md", "from": "forges/github/AGENTS.github.md", "mode": "managed", "hash": "8d8962de643dc0365a82ef5763c1e249b90b7801" },
-    { "path": ".devkit/forge.sh", "from": "forges/github/forge.sh", "mode": "managed", "hash": "21ca6807048f1d3425bddce6f972d53dce1bd47b" }
+    { "path": "AGENTS.github.md", "from": "forges/github/AGENTS.github.md", "mode": "managed", "hash": "2e7f333332f4691702c33ec46d156d998fc618e9" },
+    { "path": ".devkit/forge.sh", "from": "forges/github/forge.sh", "mode": "managed", "hash": "5efc7771b7bb46460847940a24f95ab3f0d635d8" }
   ],
   "deviations": [
     { "slug": "core.language", "scope": "content/", "reason": "content/ is bilingual, English primary, German a translation; templates, code, commits and tickets stay English. Recorded in the Deviations table of AGENTS.md.", "decidedAt": "5af251c" }
