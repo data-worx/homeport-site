@@ -35,3 +35,20 @@ Done when:
    HTTPS is enforced.
 
 Out of scope: content beyond the start page and the quickstart.
+
+## M2 — Homeport v0.1
+
+The site shows that Homeport v0.1 runs.
+
+Done when:
+
+1. The deploy publishes the stored release artifact and never builds.
+2. The claim addresses the operator's IT.
+3. The start page says what v0.1.0 does in the present tense, marks what is
+   planned, and links the module poll in data-worx/homeport.
+4. The Homeport documentation is rendered under `/docs/` from the tag
+   `v0.1.0`.
+5. The site is released with all of the above.
+
+Out of scope: several documentation versions side by side, content for
+Homeport v0.2.
