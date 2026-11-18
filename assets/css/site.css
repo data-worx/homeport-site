@@ -381,6 +381,25 @@ code {
 .doc-reader h2 a { color: inherit; text-decoration: none; }
 .doc-reader h2 a:hover { color: var(--primary); }
 .doc-source { margin-top: var(--space-12); font-size: 14px; }
+.doc-copy { margin: calc(-1 * var(--space-2)) 0 var(--space-8); }
+.doc-copy[hidden] { display: none; }
+.doc-copy-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-hairline) solid var(--line);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--ink);
+  font: 500 14px/20px var(--font-sans);
+  cursor: pointer;
+}
+.doc-copy-button:hover { background: var(--surface-sunken); }
+.doc-copy-button .icon { width: 16px; height: 16px; }
+.doc-copy-done, .doc-copy-button.is-done .doc-copy-idle { display: none; }
+.doc-copy-button.is-done .doc-copy-done { display: inline-flex; color: var(--primary); }
+.doc-copy-idle { display: inline-flex; }
 
 .docnav { grid-column: 1; grid-row: 1; font-size: 14px; line-height: 20px; }
 .docnav a { color: var(--ink-muted); text-decoration: none; }

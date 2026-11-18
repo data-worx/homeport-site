@@ -37,6 +37,7 @@ gate_site() {
   hugo build --gc --minify --destination "${out}" > /dev/null || rc=1
   [ "${rc}" -eq 0 ] && { bash scripts/check-site.sh "${out}" || rc=1; }
   [ "${rc}" -eq 0 ] && { check_problem_uris "${out}" || rc=1; }
+  [ "${rc}" -eq 0 ] && { check_markdown "${out}" || rc=1; }
   rm -rf "${out}"
   return "${rc}"
 }
@@ -58,6 +59,37 @@ check_problem_uris() {
   return "${rc}"
 }
 
+# Every documentation page has its Markdown next to it, with no relative
+# link in it, and /llms.txt lists every one of them by a URL that exists.
+check_markdown() {
+  local site="$1" base html md url rc=0
+  base="$(sed -n 's/^baseURL = "\(.*\)\/"$/\1/p' hugo.toml)"
+  while IFS= read -r html; do
+    md="${html%.html}.md"
+    if [ ! -f "${md}" ]; then
+      echo "${md#"${site}"/}: missing"
+      rc=1
+    elif ! grep -qF "](${base}${md#"${site}"})" "${site}/llms.txt"; then
+      echo "${md#"${site}"/}: not in llms.txt"
+      rc=1
+    fi
+  done < <(find "${site}/docs" -name index.html)
+  # Inline links and images, and reference definitions.
+  if grep -roE '\]\([^)]*\)|^ {0,3}\[[^]]+\]: *[^ ]+' --include=index.md "${site}/docs" \
+      | grep -vE '(\]\(|\]: *)(https?|mailto):'; then
+    echo "relative links in the Markdown of the documentation"
+    rc=1
+  fi
+  while IFS= read -r url; do
+    if [ ! -f "${site}${url#"${base}"}" ]; then
+      echo "llms.txt: ${url} does not exist"
+      rc=1
+    fi
+  done < <(grep -oE "\]\(${base}[^)]*\)" "${site}/llms.txt" | sed 's/^](//; s/)$//')
+  [ "${rc}" -eq 0 ] && echo "every documentation page has its Markdown, listed in llms.txt"
+  return "${rc}"
+}
+
 leads_to() {
   if ! grep -q "url=$2\"" "$1" 2> /dev/null; then
     echo "$1: missing or does not lead to $2"
@@ -69,7 +101,7 @@ leads_to() {
 gate_expectation() {
   case "$1" in
     build) echo "the site builds without warnings or errors" ;;
-    site)  echo "every internal link resolves, nothing loads from another host, every problem type URI leads to its page" ;;
+    site)  echo "every internal link resolves, nothing loads from another host, every problem type URI leads to its page, every documentation page has its Markdown with absolute links, listed in llms.txt" ;;
   esac
 }
 

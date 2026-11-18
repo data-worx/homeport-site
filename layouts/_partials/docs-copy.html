@@ -1,0 +1,11 @@
+{{- /* Copy as Markdown: copies the page's Markdown, served next to it as
+       index.md, to the clipboard. Hidden until copy-markdown.js shows it. */}}
+{{- with .OutputFormats.Get "markdown" }}
+<p class="doc-copy" hidden>
+  <button class="doc-copy-button" type="button" data-src="{{ .RelPermalink }}" data-done="{{ T "copiedMarkdown" }}" data-failed="{{ T "copyMarkdownFailed" }}">
+    <span class="doc-copy-idle">{{ partial "icon.html" "file-text" }}</span><span class="doc-copy-done">{{ partial "icon.html" "check" }}</span>
+    <span class="doc-copy-label">{{ T "copyMarkdown" }}</span>
+  </button>
+  <span class="visually-hidden" role="status"></span>
+</p>
+{{- end }}

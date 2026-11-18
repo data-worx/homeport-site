@@ -63,7 +63,8 @@ Two facts a newcomer gets wrong:
 The layout is described in [`docs/architecture.md`](docs/architecture.md).
 
 - Own layouts only. No third-party Hugo theme, no Hugo modules.
-- Every page works without JavaScript. Script may only enhance.
+- Every page works without JavaScript, except for a feature that needs
+  script. Script is served from this site and sets no cookies.
 - Every page under `content/` exists as `.en.md` and `.de.md`. English is
   served at `/`, German at `/de/`. The exception is `content/docs/`: the
   synced documentation is English only, and the German pages link to it.

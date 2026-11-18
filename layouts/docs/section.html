@@ -2,6 +2,7 @@
 <div class="wrap docs">
   <article class="doc">
     <h1 class="h1">{{ .Title }}</h1>
+    {{ partial "docs-copy.html" . }}
     {{- if eq .Path "/docs" }}
     {{- /* The start of the documentation: the reader sections. */}}
     {{- $tag := .Params.homeportVersion }}
