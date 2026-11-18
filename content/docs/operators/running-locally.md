@@ -8,8 +8,8 @@ which is how Homeport is developed, and through the generated Docker Compose
 file, which is how it is deployed without .NET.
 
 Today both start the infrastructure — PostgreSQL, RabbitMQ, Valkey and
-Keycloak — the gateway, the registry, the control plane, metering and the
-Echo module.
+Keycloak — the gateway, the registry, the control plane, metering, the
+admin portal and the Echo module.
 Homeport's other services follow
 with the next milestones.
 
@@ -46,7 +46,7 @@ Distributed application started. Press Ctrl+C to shut down.
 
 Open the login link. The dashboard lists `postgres`, `rabbitmq`, `valkey`,
 `keycloak`, `registry`, `echo`, `gateway`, `control-plane-migrate`,
-`control-plane`, `metering-migrate` and `metering`; each reaches the state
+`control-plane`, `metering-migrate`, `metering` and `portal`; each reaches the state
 *Healthy* within a minute, longer on the first run while the images are
 pulled. `control-plane-migrate` instead reaches *Finished* once it has
 migrated and seeded the control plane's database, and `control-plane` starts
@@ -57,8 +57,9 @@ a few seconds later; see [the registry](registry.md). The gateway runs as two
 replicas, which share every tenant's rate limit; see
 [throttling](throttling.md).
 
-The gateway is the only Homeport service with an external endpoint; its
-address is in the dashboard. Keycloak is reachable from the host too, at
+The gateway and the admin portal are the only Homeport services with an
+external endpoint; the gateway's address is in the dashboard, the portal is
+at <https://localhost:7400>. Keycloak is reachable from the host too, at
 <http://localhost:8080>, so a client can get a token there. Call Echo through
 the gateway with a token, as
 [obtaining a token](../api-consumers/obtaining-a-token.md) describes.
@@ -85,6 +86,8 @@ Parameters:postgres-password = …
 Parameters:keycloak-password = …
 Parameters:local-client-secret = …
 Parameters:unmapped-client-secret = …
+Parameters:registered-client-secret = …
+Parameters:admin-api-test-secret = …
 Parameters:gateway-signing-key = -----BEGIN PRIVATE KEY-----…
 Parameters:echo-registration-key = …
 Parameters:control-plane-owner-password = …
@@ -93,6 +96,8 @@ Parameters:metering-owner-password = …
 Parameters:metering-app-password = …
 Parameters:gateway-rabbitmq-password = …
 Parameters:metering-rabbitmq-password = …
+Parameters:portal-client-secret = …
+Parameters:operator-password = …
 ```
 
 The dashboard shows the same values under the parameter resources, masked
@@ -103,8 +108,12 @@ with, under the key id `local`; see [the gateway's signing key](signing-key.md).
 `metering-` `-owner-` and `-app-` passwords belong to the database roles the
 services migrate and run as; the two `-rabbitmq-` passwords to the broker
 users of the gateway and metering, see [metering](metering.md). The two
-`-client-secret` values are the secrets of the Keycloak clients; see
+`-client-secret` values are the secrets of the Keycloak clients the
+gateway accepts tokens of; see
 [connecting an identity provider](identity-provider.md).
+`portal-client-secret` is the secret of the portal's client, and
+`operator-password` the password of the dev operator; see
+[signing in to the portal](#signing-in-to-the-portal).
 
 The seeded tenant, plan and client are parameters too, with fixed defaults:
 tenant `3f6c1b9e-2d4a-4e8f-9b7c-5a1d0e2f4c61`, plan
@@ -126,6 +135,30 @@ become healthy, around half a minute. It imports the realm `homeport` from
 [`deploy/keycloak/realms/`](../../deploy/keycloak/realms/homeport-realm.json)
 on its first start.
 
+### Signing in to the portal
+
+Open <https://localhost:7400> and choose *Sign in with your company
+account*. Keycloak asks for a user: sign in as `operator` with the value of
+`operator-password`. The portal shows its shell with *Dev Operator* in the
+app bar; *Sign out* is in the menu under the name. See
+[the admin portal](admin-portal.md).
+
+Read the password from the user secrets, in PowerShell:
+
+```powershell
+cd D:\path\to\homeport
+dotnet user-secrets list --project src\Aspire\Homeport.Aspire.AppHost | Select-String operator-password
+```
+
+or in bash:
+
+```bash
+cd /path/to/homeport
+dotnet user-secrets list --project src/Aspire/Homeport.Aspire.AppHost | grep operator-password
+```
+
+Both print one line, `Parameters:operator-password = <password>`.
+
 ## With Docker Compose
 
 The compose file in [`deploy/compose/`](../../deploy/compose/) is generated
@@ -139,14 +172,15 @@ lines below are not needed. Verify the images first, as
 [verifying an image](verifying-images.md) describes.
 
 To run the source of this checkout, build the images of the gateway, the
-registry, the control plane, metering and the Echo module locally first,
+registry, the control plane, metering, the portal and the Echo module locally first,
 from the repository root:
 
 ```bash
 dotnet publish src/Platform/Gateway/Homeport.Platform.Gateway.Api -t:PublishContainer
 dotnet publish src/Platform/Registry/Homeport.Platform.Registry.Api -t:PublishContainer
-dotnet publish src/Platform/ControlPlane/Homeport.Platform.ControlPlane -t:PublishContainer
+dotnet publish src/Platform/ControlPlane/Homeport.Platform.ControlPlane.Api -t:PublishContainer
 dotnet publish src/Platform/Metering/Homeport.Platform.Metering.Api -t:PublishContainer
+dotnet publish src/Platform/Portal/Homeport.Platform.Portal -t:PublishContainer
 dotnet publish src/Modules/Echo/Homeport.Modules.Echo.Api -t:PublishContainer
 ```
 
@@ -157,6 +191,7 @@ The last line of each names its image:
 … "homeport-registry:latest" …
 … "homeport-control-plane:latest" …
 … "homeport-metering:latest" …
+… "homeport-portal:latest" …
 … "homeport-module-echo:latest" …
 ```
 
@@ -174,7 +209,7 @@ variable listed in `.env.example`, a signing key for the gateway, as
 [the gateway's signing key](signing-key.md) describes, a registration key
 for Echo, as [the registry](registry.md) describes, the directories of the
 database and broker init scripts and the Keycloak realm, a random secret for
-every `_SECRET` variable, and the seed of
+every `_SECRET` variable, the portal's address, and the seed of
 [the control plane](control-plane.md). `control-plane-migrate` runs from the
 control plane's image, `metering-migrate` from metering's. It refuses to
 overwrite an existing `.env`, because the database and the broker keep the
@@ -184,7 +219,7 @@ and the file with `docker compose down -v && rm .env`.
 Check it: every line but the two `GATEWAY_ADDITIONAL_` ones has a value.
 
 ```bash
-grep -c '=.' .env      # prints 37
+grep -c '=.' .env      # prints 46
 ```
 
 Start, then check:
@@ -198,20 +233,22 @@ docker compose ps --format '{{.Service}} {{.State}}'
 control-plane running
 echo running
 gateway running
-gateway running
 keycloak running
 metering running
+portal running
 postgres running
 rabbitmq running
 registry running
 valkey running
 ```
 
-The gateway runs as two replicas, each publishing a port to the host, chosen
-by Docker on every start; `docker compose port` names the first one's.
+The compose file runs one gateway, on the host port `GATEWAY_HOST_PORT` in
+`.env`, `5100` as `create-env.sh` writes it; it stays the same across
+restarts, so a reverse proxy can point at it. To run more replicas, see
+[scaling out the gateway](reverse-proxy.md#scaling-out-the-gateway).
 Keycloak publishes `8080`, so a client on the host gets its token there, and
-its management port, chosen by Docker. Get a token for `local-client`, ask
-for the gateway's port, then call Echo through it. Until Echo has registered
+its management port, chosen by Docker. Get a token for `local-client`, then
+call Echo through the gateway. Until Echo has registered
 and the gateway has read its routes, a few seconds after the start, the call
 is answered with `404`:
 
@@ -224,17 +261,19 @@ token="$(curl -s \
   -d scope=echo.invoke \
   http://localhost:8080/realms/homeport/protocol/openid-connect/token \
   | sed -n 's/.*"access_token":"\([^"]*\)".*/\1/p')"
-docker compose port gateway 8080      # prints 0.0.0.0:<port>
 curl -s -X POST -H "Authorization: Bearer ${token}" \
   -H 'Content-Type: application/json' \
-  -d '{"hello":"Homeport"}' http://localhost:<port>/modules/echo/v1/echo
+  -d '{"hello":"Homeport"}' http://localhost:5100/modules/echo/v1/echo
 ```
 
 ```json
 {"hello":"Homeport"}
 ```
 
-Every other service is reachable only on the compose network. The token is
+The portal publishes a plain HTTP port and refuses to sign in over it: put
+a reverse proxy that terminates TLS in front of it, as
+[the admin portal](admin-portal.md#in-the-apphost-and-the-compose-file)
+describes. Every other service is reachable only on the compose network. The token is
 valid for five minutes; get a new one after that. Stop and remove
 everything with:
 

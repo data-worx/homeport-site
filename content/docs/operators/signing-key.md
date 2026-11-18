@@ -1,6 +1,6 @@
 ---
 title: 'The gateway''s signing key'
-weight: 3
+weight: 4
 source: 'docs/operators/signing-key.md'
 ---
 The gateway signs every token it issues: the service tokens it calls

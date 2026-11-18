@@ -1,6 +1,6 @@
 ---
 title: 'Rate limits'
-weight: 22
+weight: 25
 source: 'docs/api-consumers/rate-limits.md'
 ---
 Every request to a module, and every call to a platform API such as

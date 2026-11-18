@@ -1,19 +1,21 @@
 ---
 title: 'The control plane'
-weight: 5
+weight: 6
 source: 'docs/operators/control-plane.md'
 ---
 The control plane knows the tenants of the installation, their plans and
 their clients, and tells the gateway which tenant and plan a client belongs
-to. In this release it is read-only: its content comes from one seeded
-tenant, plan and client. A write API follows with the admin portal.
+to. You manage tenants, plans and clients in
+[the admin portal](admin-portal.md), through
+[the admin API](admin-api.md); `migrate` seeds one tenant, plan and client
+to start with.
 
 It keeps its data in the schema `control_plane` of the Homeport database;
 see [the data model](../architecture/data-model.md).
 
 ## Preparing the database
 
-The database needs a schema and two roles per service before anything
+The database needs a schema and its roles per service before anything
 starts. [`deploy/postgres/init/init-homeport.sh`](../../deploy/postgres/init/init-homeport.sh)
 creates them, the control plane's and [metering's](metering.md#preparing-the-database):
 
@@ -36,6 +38,7 @@ export CONTROL_PLANE_OWNER_PASSWORD="$(openssl rand -hex 24)"
 export CONTROL_PLANE_APP_PASSWORD="$(openssl rand -hex 24)"
 export METERING_OWNER_PASSWORD="$(openssl rand -hex 24)"
 export METERING_APP_PASSWORD="$(openssl rand -hex 24)"
+export METERING_ADMIN_PASSWORD="$(openssl rand -hex 24)"
 createdb --username "${POSTGRES_USER}" "${POSTGRES_DB}"
 bash deploy/postgres/init/init-homeport.sh
 ```
@@ -70,7 +73,7 @@ It is configured by environment variables:
 | `Seed__PlanId` | `SEED_PLAN_ID` | The plan's id, a uuid |
 | `Seed__PlanName` | `SEED_PLAN_NAME` | The plan's name, at most 200 characters |
 | `Seed__RequestsPerSecond` | `SEED_PLAN_REQUESTS_PER_SECOND` | How fast the plan's token bucket refills; positive |
-| `Seed__Burst` | `SEED_PLAN_BURST` | How many requests the bucket holds; at least the rate |
+| `Seed__Burst` | `SEED_PLAN_BURST` | How many requests the bucket holds; positive, and may be below the rate |
 | `Seed__ClientId` | `SEED_CLIENT_ID` | The client id as your identity provider issues it |
 
 A missing or invalid value fails `migrate` with exit code `1`, and the
@@ -95,5 +98,8 @@ for a client it does not know. Only the gateway may ask: the control plane
 accepts a service token the gateway issued for the audience
 `homeport-control-plane`
 ([ADR-0014](../architecture/adr/0014-authentication-between-services.md))
-and answers anything else with `401`. It finds the gateway's keys the way
+and answers a request without a valid token with `401`. Any other token of
+the gateway's for that audience, such as the operator's caller token for
+the admin API, is answered with `403`
+[`insufficient-scope`](../reference/problems/insufficient-scope.md). It finds the gateway's keys the way
 the registry does, through the reference to the gateway.

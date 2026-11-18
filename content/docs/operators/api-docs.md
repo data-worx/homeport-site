@@ -1,6 +1,6 @@
 ---
 title: 'API docs'
-weight: 12
+weight: 15
 source: 'docs/operators/api-docs.md'
 ---
 The gateway can show the API documentation of every module and of the

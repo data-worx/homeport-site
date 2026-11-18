@@ -1,0 +1,299 @@
+---
+title: 'The admin portal'
+weight: 10
+source: 'docs/operators/admin-portal.md'
+---
+The admin portal is where you, the operator, manage Homeport in a browser
+([ADR-0020](../architecture/adr/0020-the-operator-as-a-caller.md)). You sign
+in at your own identity provider; the portal never sees your password. It is
+a Blazor Server application, so your tokens stay on its server and never
+reach the browser.
+
+You sign in, see who you are signed in as, sign out, manage the tenants,
+plans and clients, see the registered modules, and read and download the
+usage of every tenant, and read the audit log. Every page calls the
+[admin API](admin-api.md) at the gateway's admin port, as you.
+
+![The portal's shell after signing in: the app bar with the operator's name, the navigation and the start page](admin-portal-shell.png)
+
+## Signing in
+
+![The sign-in page: one button, and the host of the identity provider it sends you to](admin-portal-sign-in.png)
+
+1. A request from a browser without a session lands on the portal's sign-in
+   page, not at the identity provider. It names the provider's host, so you
+   know where you are sent.
+2. Its button sends you to the provider with authorization code and PKCE
+   (`S256`). The code comes back in the query of the redirect.
+3. The portal exchanges the code for tokens from its server, as a
+   confidential client, and keeps your session in a cookie.
+4. Every page requires the claim that grants access, such as `roles` with
+   `homeport-admin`. The claim may hold a list; one value must match. A user
+   the provider knows but who lacks the claim gets the *access denied* page,
+   with a button to sign in with another account. There is one role and no
+   finer permissions.
+
+*Sign out*, in the menu under your name, ends the session at the portal and
+at the provider, and returns to the sign-in page.
+
+## Tenants
+
+*Tenants* lists every tenant with its id and number of clients; the search
+field filters by name or id. Selecting a tenant shows its facts next to the
+list.
+
+![The tenant list with a search field, three tenants and the facts of the selected one](admin-portal-tenants.png)
+
+*Add tenant* asks for a name; *Rename* changes the selected tenant's name.
+A name must be unique among tenants, compared case-sensitively. When the
+admin API refuses one, the dialog puts the reason at the name field:
+
+![The rename dialog with the name of another tenant and the message that it already exists](admin-portal-tenants-rename.png)
+
+Every other problem of the admin API — the gateway or the control plane not
+answering, for example — appears as an alert with its title, its detail and
+the trace id, the same on every page. While the list loads it shows
+placeholder rows; when it cannot be loaded, the problem and *Try again*.
+
+Each change is recorded in the audit log with your subject and display name
+(see [the admin API](admin-api.md#audit)).
+
+## Plans
+
+*Plans* lists every plan with its requests per second, its burst and the
+number of clients that use it. Selecting a plan shows its facts next to the
+list.
+
+![The plan list with two plans and the facts of the selected one](admin-portal-plans.png)
+
+*Add plan* asks for a name, the requests per second and the burst; *Change*
+edits the selected plan. The name must be unique among plans, compared
+case-sensitively, and both limits must be at least 1; a burst below the
+rate is allowed. When the admin API refuses a value, the dialog puts the
+reason at its field.
+
+*Delete* asks before it deletes the selected plan. A plan that a client
+uses is not deleted; the dialog then shows the problem
+[`plan-in-use`](../reference/problems/plan-in-use.md) with the trace id:
+
+![The delete dialog with the problem that the plan is in use](admin-portal-plans-in-use.png)
+
+A changed plan reaches the gateway once it looks a client up again, after
+the gateway's `ControlPlane:ClientCacheLifetime` — one minute by default.
+Until then the plan's clients keep their old limits. A deleted plan was used
+by no client, so nothing changes at the gateway.
+
+Each change is recorded in the audit log, as for tenants.
+
+## Clients
+
+*Clients* lists every registered client with its client id, its tenant and
+its plan. The tenant field above the list shows one tenant's clients only.
+
+![The client list with two clients, the tenant filter and the actions of each row](admin-portal-clients.png)
+
+A client is created at your identity provider, not here (see
+[Keycloak as your identity provider](identity-provider.md#keycloak-as-your-identity-provider)).
+*Register client* maps its client id to a tenant and a plan. The client id
+must be exactly the one the provider issued, and not registered yet. When
+the admin API refuses a value, the dialog puts the reason at its field:
+
+![The register dialog with a client id that is already registered and the message at its field](admin-portal-clients-register.png)
+
+*Change plan* holds a client to another plan. A client keeps its tenant; to
+move it to another tenant, remove it and register it again, so its usage
+stays with the tenant it was recorded for. *Remove* asks before it removes
+the client; the client stays at your identity provider, and its usage with
+its tenant.
+
+Until a tenant and a plan exist, the page points to *Tenants* and *Plans*
+instead of offering to register a client.
+
+A registered, moved or removed client reaches the gateway once it looks the
+client up again, after `ControlPlane:ClientCacheLifetime` — one minute by
+default. A removed client can still call for at most that long.
+
+Each change is recorded in the audit log, as for tenants.
+
+## Modules
+
+*Modules*, under *Platform*, lists every module with at least one live
+instance: its module id, the versions and contract versions its instances
+run, how many instances there are, how long ago the most recent heartbeat
+arrived, how many routes the gateway serves for it, and — where the API
+docs are linked — its OpenAPI document. Select a module to see each
+instance with its address, version and last heartbeat, and each route with
+its scope, meter and the version of the instance whose declaration
+applies.
+
+![The module list with Echo, one instance and four routes, and the instances and routes of Echo](admin-portal-modules.png)
+
+The page only reads what the [registry](registry.md) holds. Modules
+register themselves when they start, and an instance drops out 30 seconds
+after its last heartbeat; there is nothing to remove by hand. The
+heartbeat ages are those of the moment the list was read: *Refresh* reads
+it again. Reading the modules writes no audit entry, since a registration
+is the platform's data, not a tenant's.
+
+## Usage
+
+*Usage* shows what every tenant used in a period: one row per tenant, one
+column per module and meter, each cell the sum over the period, and a row
+of totals at the bottom. The period runs from the first to the last day
+chosen, both whole UTC days, and starts as the current month up to today.
+Filter by tenant, module or meter to narrow it; the module and meter
+filters offer what the period has. A tenant deleted since appears with its
+id. Meters count different units, so a tenant's row has no total.
+
+![The usage of two tenants in the current month: requests to Echo per tenant and their total, with the period, tenant, module and meter filters and the downloads](admin-portal-usage.png)
+
+*CSV* and *JSON* download the usage of the filters as the admin API writes
+it, one row per hour or per day, as chosen next to the buttons, with the
+tenant's id in every row. The file is named after the period and the
+granularity, such as `homeport-usage-2026-11-01-2026-11-15-day.csv`; its
+columns are those of [a tenant's own export](../api-consumers/reading-usage.md),
+plus `tenant`.
+
+Usage is tenant data. Every read — the page, each change of a filter and
+each download — writes an entry into metering's audit log under your
+subject and name, with the filter it read
+([metering](metering.md#the-operators-usage-read)).
+
+## Audit log
+
+*Audit log*, under *Platform*, shows who changed what and who read which
+tenant's usage: the entries of the control plane and of metering in one
+list, newest first, each with its time in UTC, the service that recorded it,
+the operator's name and subject, the action with its sentence, and the
+target, such as `tenants/<id>`. Filter by a period of whole UTC days, by an
+operator's subject or by a target; both are matched exactly. The page shows
+50 entries; *Load more* adds the next 50.
+
+![The audit log with the creation and renaming of tenants in the control plane and a usage read in metering, newest first, with the period, operator and target filters](admin-portal-audit.png)
+
+Each service keeps its own audit log; the page merges them by time. When
+one service does not answer, the page shows the entries of the others and
+names the missing one above the list, with the trace id of the failed
+read. An entry is written in the same transaction as what it records, so
+the log holds what was done, never an attempt that failed. Reading the
+audit log writes no entry itself. What each action means is in
+[the admin API](admin-api.md#audit).
+
+## Configuration
+
+| Setting | Environment variable | Default | Meaning |
+|---|---|---|---|
+| `SignIn:Authority` | `SignIn__Authority` | — | The issuer of your tokens. The portal reads the provider's metadata at `<authority>/.well-known/openid-configuration` |
+| `SignIn:ClientId` | `SignIn__ClientId` | — | The portal's client id at the provider |
+| `SignIn:ClientSecret` | `SignIn__ClientSecret` | — | The secret of that client |
+| `SignIn:ClaimType` | `SignIn__ClaimType` | `roles` | The type of the claim that grants access |
+| `SignIn:ClaimValue` | `SignIn__ClaimValue` | `homeport-admin` | The value that claim must carry |
+| `SignIn:NameClaim` | `SignIn__NameClaim` | `name` | The claim your display name is taken from, shown in the app bar |
+| `SignIn:RequireHttpsMetadata` | `SignIn__RequireHttpsMetadata` | `true` | Whether the metadata must be fetched over HTTPS. Turn it off only for a development provider without TLS |
+| `AdminApi:Url` | `AdminApi__Url` | — | The gateway's admin port, such as `http://gateway:8000` |
+| `ApiDocs:Url` | `ApiDocs__Url` | — | The gateway's API docs as your browser reaches them, such as `https://api.example.com/platform/docs`. Set it only where `Gateway:Docs:Enabled` is on; unset, *Modules* links no document |
+| `TrustedProxies:Proxies:0`, … | `TrustedProxies__Proxies__0`, … | — | The reverse proxies whose forwarded headers the portal applies; see [below](#tls-and-the-reverse-proxy) |
+| `TrustedProxies:Networks:0`, … | `TrustedProxies__Networks__0`, … | — | The same, as networks in CIDR notation |
+
+The portal does not start without an authority, a client id, a secret and
+the address of the admin API. Its start is logged at Information with the
+authority, the client id, the claim, the name claim, the address of the
+admin API, the API docs and the trusted proxies, never with the secret. An
+`ApiDocs:Url` that is not an absolute address stops the start.
+
+The portal asks your provider for a refresh token with the scopes it
+requests by default; a provider that issues none ends a page's work when
+the access token expires, and you sign in again.
+
+Use the same claim as the gateway's admin API, `AdminApi:ClaimType` and
+`AdminApi:ClaimValue` (see [the admin API](admin-api.md)): the portal lets
+you in, the gateway lets your requests through, and both should agree on
+who is an operator.
+
+## The client at your identity provider
+
+Register the portal as a confidential client that uses authorization code:
+
+- **Redirect URI** `https://<portal address>/signin-oidc`, and **post-logout
+  redirect URI** `https://<portal address>/signout-callback-oidc`, where the
+  portal address is the one your browser opens.
+- **PKCE** with `S256`, if the provider lets you require it.
+- **Scopes** `openid` and `profile`, which the portal asks for.
+- **Claims in the ID token**: the subject, the display name in
+  `SignIn:NameClaim`, and the claim that grants access. Many providers put
+  roles into the access token only; map them into the ID token too, because
+  the portal decides on the ID token.
+- **Audience of the access token**: the one `AdminApi:Audience` names, so
+  the gateway accepts the token the portal will call the admin API with.
+
+Give the claim only to the people who operate Homeport.
+
+## TLS and the reverse proxy
+
+The portal signs in over HTTPS only. A sign-in that would come back over
+plain HTTP is not started: the portal shows the sign-in page with *Sign-in
+needs HTTPS* and logs a warning. Its cookies are `Secure` and `HttpOnly`,
+and `SameSite=Lax` or stricter, so a browser would not send them over HTTP
+anyway.
+
+TLS ends at your reverse proxy. The proxy passes the scheme on in
+`X-Forwarded-Proto`, and the portal applies it only from the proxies you
+trust, configured as for the gateway (see
+[the reverse proxy](reverse-proxy.md)). Without a trusted proxy, a request
+that arrives over HTTP stays HTTP, whatever header it carries, and nobody
+can sign in.
+
+## Sessions
+
+Your session keeps the tokens of the sign-in in its cookie. A page reads
+them once, when its connection to the portal opens, and from then on renews
+the access token with the refresh token shortly before it expires, so a
+page left open keeps working while your session at the identity provider
+lasts. Once the provider refuses the refresh — your session there has
+ended — or the gateway refuses the token, the portal sends you to sign in
+again and returns you to the page.
+
+The session cookie is protected with ASP.NET Core's data protection keys.
+The image keeps them inside the container, so a restart of the portal ends
+every session and the operators sign in again. Run one replica: a second one
+would not read the first one's cookies.
+
+## Error pages
+
+The portal answers a browser with HTML pages of its own: *access denied*,
+*page not found*, and *something went wrong* for an unexpected error. Each
+shows the trace id of the request. Give it to whoever reads the logs and
+traces; it finds the request there (see [tracing](tracing.md)). The admin
+API behind the gateway still answers with Problem Details.
+
+## In the AppHost and the compose file
+
+The AppHost runs the portal at <https://localhost:7400> with the
+development certificate, against Keycloak. The realm holds the client
+`portal` and the user `operator` with the role `homeport-admin`; its
+password is the parameter `operator-password` (see
+[running locally](running-locally.md#signing-in-to-the-portal)). It links
+the modules to the gateway's API docs, which a local run serves; the
+compose file does not, since the docs are off outside Development.
+
+The compose file runs the image `homeport-portal` and publishes its plain
+HTTP port, `PORTAL_PORT`, for your reverse proxy to terminate TLS in front
+of. `PORTAL_ADDRESS` is the address your browser opens; the development
+realm sends you back to it after signing in. The compose file sets no
+trusted proxy: add your proxy as for the gateway, in an override file:
+
+```yaml
+services:
+  portal:
+    environment:
+      TrustedProxies__Proxies__0: "10.0.0.5"
+```
+
+## What is logged
+
+At Warning: a signed-in user without the claim that grants access, with the
+claim they lack, a sign-in refused over plain HTTP, a refresh the identity
+provider refused, with its status, an admin API the portal cannot reach,
+and an error of the admin API without Problem Details. None names the user
+or carries a token. At Debug: the problem type of each error the admin API
+answered with.

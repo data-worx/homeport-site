@@ -1,6 +1,6 @@
 ---
 title: 'API docs'
-weight: 24
+weight: 27
 source: 'docs/api-consumers/api-docs.md'
 ---
 Where the operator has switched them on, the gateway shows every API of the

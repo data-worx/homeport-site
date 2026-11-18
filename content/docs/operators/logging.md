@@ -1,6 +1,6 @@
 ---
 title: 'Logging'
-weight: 10
+weight: 13
 source: 'docs/operators/logging.md'
 ---
 Every Homeport service and every module writes its log through .NET's

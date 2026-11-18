@@ -1,6 +1,6 @@
 ---
 title: 'The supply chain'
-weight: 30
+weight: 34
 source: 'docs/architecture/supply-chain.md'
 ---
 How Homeport keeps track of what its images contain, and why it is set up

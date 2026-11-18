@@ -1,6 +1,6 @@
 ---
 title: 'Problem types'
-weight: 33
+weight: 37
 source: 'docs/reference/problems/README.md'
 aliases: ['/problems/']
 ---
@@ -32,6 +32,7 @@ gateway replaces, unless a type below applies; see
 
 | Type | Status | Page |
 |---|---|---|
+| `https://homeport.data-worx.de/problems/admin-claim-missing` | 403 | [admin-claim-missing](admin-claim-missing.md) |
 | `https://homeport.data-worx.de/problems/control-plane-unavailable` | 503 | [control-plane-unavailable](control-plane-unavailable.md) |
 | `https://homeport.data-worx.de/problems/insufficient-scope` | 403 | [insufficient-scope](insufficient-scope.md) |
 | `https://homeport.data-worx.de/problems/internal` | 500 | [internal](internal.md) |
@@ -39,6 +40,10 @@ gateway replaces, unless a type below applies; see
 | `https://homeport.data-worx.de/problems/module-timeout` | 504 | [module-timeout](module-timeout.md) |
 | `https://homeport.data-worx.de/problems/module-unavailable` | 503 | [module-unavailable](module-unavailable.md) |
 | `https://homeport.data-worx.de/problems/module-unreachable` | 502 | [module-unreachable](module-unreachable.md) |
+| `https://homeport.data-worx.de/problems/platform-service-timeout` | 504 | [platform-service-timeout](platform-service-timeout.md) |
+| `https://homeport.data-worx.de/problems/platform-service-unavailable` | 503 | [platform-service-unavailable](platform-service-unavailable.md) |
+| `https://homeport.data-worx.de/problems/platform-service-unreachable` | 502 | [platform-service-unreachable](platform-service-unreachable.md) |
+| `https://homeport.data-worx.de/problems/plan-in-use` | 409 | [plan-in-use](plan-in-use.md) |
 | `https://homeport.data-worx.de/problems/rate-limited` | 429 | [rate-limited](rate-limited.md) |
 | `https://homeport.data-worx.de/problems/unauthorized` | 401 | [unauthorized](unauthorized.md) |
 | `https://homeport.data-worx.de/problems/unknown-client` | 403 | [unknown-client](unknown-client.md) |

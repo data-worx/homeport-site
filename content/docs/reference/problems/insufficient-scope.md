@@ -13,7 +13,15 @@ not reach the module or the platform service.
 
 Metering answers with the same type when a token the gateway forwarded
 lacks `usage.read` or names no tenant; through the gateway, a caller sees
-the gateway's answer first.
+the gateway's answer first. The control plane answers with it on an
+[admin endpoint](../../operators/admin-api.md) for a token that is not the
+operator's caller token: one without the scope `admin`, or one that names a
+tenant. It answers with it on
+[the client lookup](../../operators/control-plane.md#the-service) for any
+token that is not the gateway's service token, a caller token included.
+The registry answers with it the same way: on its admin endpoint for a
+token that is not the operator's caller token, and on the route table for
+any token that is not the gateway's service token.
 
 ```json
 {

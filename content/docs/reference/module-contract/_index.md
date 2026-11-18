@@ -1,6 +1,6 @@
 ---
 title: 'Module contract'
-weight: 32
+weight: 36
 source: 'docs/reference/module-contract/README.md'
 ---
 **Status: normative, `contractVersion` 1**, the version released with v0.1.
@@ -28,7 +28,9 @@ the .NET SDK (`Homeport.Sdk`) is a convenience, not a requirement.
 
 Every route `path` starts with `/v{major}/`, for example `/v1/echo`. Minor
 changes stay backwards compatible; a breaking change is a new major version
-next to the old one. The module id `platform` is reserved.
+next to the old one. The module id `platform` is reserved, and so is every
+id that starts with `homeport-`: those name the platform services, and a
+module token carries its module id as its audience.
 
 ## Health
 

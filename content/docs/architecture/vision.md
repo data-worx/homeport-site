@@ -1,6 +1,6 @@
 ---
 title: 'Vision'
-weight: 25
+weight: 28
 source: 'docs/architecture/vision.md'
 ---
 > **Homeport by data-worx** — *Your data never leaves port.*
@@ -64,7 +64,7 @@ Homeport is a **self-hosted platform for business modules**.
                  │  Registry        modules register + heartbeat          │
                  │  ControlPlane    tenants, plans, clients, keys (API)   │
                  │  Metering        consumes usage, aggregates, exports   │
-                 │  Portal          Blazor admin UI → ControlPlane        │
+                 │  Portal          Blazor admin UI → gateway admin port  │
                  │                                                        │
                  │  Modules         <module>-api  (+ <module>-worker)     │
                  │                                                        │

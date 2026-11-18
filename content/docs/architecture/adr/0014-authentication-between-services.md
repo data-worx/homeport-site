@@ -2,7 +2,7 @@
 title: 'ADR-0014: Authentication between services'
 source: 'docs/architecture/adr/0014-authentication-between-services.md'
 ---
-- Status: Accepted
+- Status: Accepted; supplemented by ADR-0020
 - Date: 2026-10-26
 
 ## Context
