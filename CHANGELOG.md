@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The start page describes Homeport v0.2.0. It names the admin portal, in
+  which the operator manages tenants, plans and clients and reads modules,
+  usage and the audit log; the audit log and the admin portal in
+  `docker compose up` are no longer marked as planned, and the status links
+  the release v0.2.0. The first module is being decided now.
 - The documentation under `/docs/` now describes Homeport v0.2.0. It adds
   the admin portal with a screenshot of each screen, the admin API,
   upgrading, the request flow, ADR 0020 and five new problem types.

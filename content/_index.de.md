@@ -4,7 +4,7 @@ description: "Fachdienste in deiner eigenen Infrastruktur: mandantenfähig, mit 
 eyebrow: "Open Source · AGPL-3.0 · selbst gehostet"
 lead: "Fachdienste in deiner eigenen Infrastruktur – mandantenfähig, mit Verbrauchsmessung, Open Source."
 subline: "Gateway, Mandanten, Authentifizierung, Rate Limits und Verbrauchsexport inklusive – dock die Fachmodule an, die du brauchst."
-status: "**Alpha · v0.1.0.** Lies das [Release](https://github.com/data-worx/homeport/releases/tag/v0.1.0) und starte es mit dem [Quickstart](https://github.com/data-worx/homeport#quickstart). Was als Nächstes kommt, steht in der [Roadmap](https://github.com/data-worx/homeport/blob/main/ROADMAP.md)."
+status: "**Alpha · v0.2.0.** Lies das [Release](https://github.com/data-worx/homeport/releases/tag/v0.2.0) und starte es mit dem [Quickstart](https://github.com/data-worx/homeport#quickstart). Was als Nächstes kommt, steht in der [Roadmap](https://github.com/data-worx/homeport/blob/main/ROADMAP.md)."
 
 features:
   id: features
@@ -36,6 +36,9 @@ features:
     - icon: log-in
       title: "Dein Identity Provider."
       text: "Single Sign-on über OIDC, mit Entra ID, Keycloak und anderen."
+    - icon: layout-dashboard
+      title: "Ein Portal für den Betrieb."
+      text: "Das Admin-Portal: Mandanten, Tarife und Clients verwalten; Module, Nutzung und Audit-Log einsehen."
     - icon: badge-check
       title: "Vertrauen als Standard."
       text: "Signierte Images, eine SBOM und ein CVE-Scan für jedes Image."
@@ -53,8 +56,7 @@ team:
       points:
         - "Läuft auf deinen Servern, in deinem Cloud-Tenant oder air-gapped"
         - "Jedes Image signiert, mit SBOM und CVE-Bericht"
-        - text: "Ein Audit-Log jeder Admin-Aktion"
-          planned: true
+        - "Ein Audit-Log jeder Admin-Aktion"
     - eyebrow: "Controlling & Finanzen"
       title: "Wissen, wer was genutzt hat."
       points:
@@ -81,8 +83,7 @@ how:
       text: "Die Compose-Datei herunterladen. Die Images sind signiert und kommen aus einer Registry."
     - icon: terminal
       title: "`docker compose up`"
-      text: "Gateway und Registry starten. Deinen Identity Provider anbinden."
-      planned: "Das Admin-Portal."
+      text: "Gateway, Registry und Admin-Portal starten. Deinen Identity Provider anbinden."
     - icon: hp-module
       title: "Module andocken"
       text: "Deine eigenen Dienste, über den Modulvertrag; Katalogmodule docken genauso an. Jedes Modul registriert sich selbst und wird geroutet, gemessen und beobachtet."
@@ -104,7 +105,7 @@ modules:
       text: "XRechnung, ZUGFeRD"
     - title: "Bankformate"
       text: "CAMT, MT940, SEPA"
-  poll: "Welches Modul kommt zuerst? [Stimm in der Umfrage ab](https://github.com/data-worx/homeport/discussions/2) – entschieden wird mit dem Release von Homeport v0.2."
+  poll: "Welches Modul kommt zuerst? [Stimm in der Umfrage ab](https://github.com/data-worx/homeport/discussions/2) – die Entscheidung fällt jetzt."
   link: "Zum Modulvertrag"
   url: "https://github.com/data-worx/homeport/tree/main/docs/reference/module-contract"
 

@@ -4,7 +4,7 @@ description: "Business services in your own infrastructure: multi-tenant, metere
 eyebrow: "Open source · AGPL-3.0 · self-hosted"
 lead: "Business services in your own infrastructure – multi-tenant, metered, open source."
 subline: "Gateway, tenants, authentication, rate limits and usage export included – add the business modules you need."
-status: "**Alpha · v0.1.0.** Read the [release](https://github.com/data-worx/homeport/releases/tag/v0.1.0) and run it with the [quickstart](https://github.com/data-worx/homeport#quickstart). What comes next is on the [roadmap](https://github.com/data-worx/homeport/blob/main/ROADMAP.md)."
+status: "**Alpha · v0.2.0.** Read the [release](https://github.com/data-worx/homeport/releases/tag/v0.2.0) and run it with the [quickstart](https://github.com/data-worx/homeport#quickstart). What comes next is on the [roadmap](https://github.com/data-worx/homeport/blob/main/ROADMAP.md)."
 
 features:
   id: features
@@ -36,6 +36,9 @@ features:
     - icon: log-in
       title: "Your identity provider."
       text: "Single sign-on through OIDC, with Entra ID, Keycloak and others."
+    - icon: layout-dashboard
+      title: "One portal to run it."
+      text: "The admin portal: manage tenants, plans and clients; read modules, usage and the audit log."
     - icon: badge-check
       title: "Trust by default."
       text: "Signed images, an SBOM and a CVE scan for every image."
@@ -53,8 +56,7 @@ team:
       points:
         - "Runs on your servers, in your cloud tenant or air-gapped"
         - "Every image signed, with an SBOM and a CVE report"
-        - text: "An audit log of every admin action"
-          planned: true
+        - "An audit log of every admin action"
     - eyebrow: "Controlling & Finance"
       title: "Know who used what."
       points:
@@ -81,8 +83,7 @@ how:
       text: "Get the compose file. Images are signed and come from one registry."
     - icon: terminal
       title: "`docker compose up`"
-      text: "Gateway and registry start. Connect your identity provider."
-      planned: "The admin portal."
+      text: "Gateway, registry and the admin portal start. Connect your identity provider."
     - icon: hp-module
       title: "Dock modules"
       text: "Your own services, on the module contract; catalog modules dock the same way. Each registers itself and is routed, metered and observed."
@@ -104,7 +105,7 @@ modules:
       text: "XRechnung, ZUGFeRD"
     - title: "Bank statement formats"
       text: "CAMT, MT940, SEPA"
-  poll: "Which module comes first? [Vote in the poll](https://github.com/data-worx/homeport/discussions/2) – it is decided when Homeport v0.2 is released."
+  poll: "Which module comes first? [Vote in the poll](https://github.com/data-worx/homeport/discussions/2) – it is being decided now."
   link: "Read the module contract"
   url: "https://github.com/data-worx/homeport/tree/main/docs/reference/module-contract"
 
