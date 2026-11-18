@@ -1,6 +1,6 @@
 ---
 title: 'Reading usage'
-weight: 23
+weight: 26
 source: 'docs/api-consumers/reading-usage.md'
 ---
 Homeport counts what your tenant uses of every module, per hour and per
@@ -15,7 +15,9 @@ GET /platform/v1/usage?from=…&to=…&granularity=hour|day[&module=…][&meter=
 Your token needs the scope `usage.read`. You only ever see your own
 tenant's usage: the tenant comes from your client, never from the request.
 The call counts against your tenant's rate limit like any other
-([rate limits](rate-limits.md)), but it is not itself counted as usage.
+([rate limits](rate-limits.md)), but it is not itself counted as usage. The path of the request through
+the gateway to metering is drawn in
+[the request flow](../architecture/request-flow.md#a-platform-request).
 
 ## Parameters
 
@@ -24,8 +26,8 @@ The call counts against your tenant's rate limit like any other
 | `from` | yes | The first moment of the period, ISO 8601, such as `2026-11-07T00:00:00Z` |
 | `to` | yes | The first moment after the period; later than `from` |
 | `granularity` | yes | `hour` or `day` |
-| `module` | no | Only this module's usage, by its id, such as `echo` |
-| `meter` | no | Only this meter's usage, such as `requests` |
+| `module` | no | Only this module's usage, by its id, such as `echo`; at most 255 characters |
+| `meter` | no | Only this meter's usage, such as `requests`; at most 255 characters |
 
 Hours and days are UTC. A bucket is in the export when it **starts** in
 [`from`, `to`): `from=2026-11-07T00:00:00Z&to=2026-11-08T00:00:00Z` with
@@ -78,6 +80,9 @@ period,module,meter,quantity
 | `403` | [`insufficient-scope`](../reference/problems/insufficient-scope.md) | The token lacks `usage.read` |
 | `403` | [`unknown-client`](../reference/problems/unknown-client.md) | The operator has not mapped your client to a tenant |
 | `429` | [`rate-limited`](../reference/problems/rate-limited.md) | Your tenant's rate limit is exceeded |
+| `502` | [`platform-service-unreachable`](../reference/problems/platform-service-unreachable.md) | The gateway could not reach metering |
+| `503` | [`platform-service-unavailable`](../reference/problems/platform-service-unavailable.md) | No instance of metering is available |
+| `504` | [`platform-service-timeout`](../reference/problems/platform-service-timeout.md) | Metering did not answer in time |
 
 ## Try it locally
 

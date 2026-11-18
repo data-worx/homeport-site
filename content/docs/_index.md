@@ -1,4 +1,4 @@
 ---
 title: 'Documentation'
-homeportVersion: 'v0.1.0'
+homeportVersion: 'v0.2.0'
 ---

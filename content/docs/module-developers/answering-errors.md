@@ -1,6 +1,6 @@
 ---
 title: 'Answering errors with the SDK'
-weight: 16
+weight: 19
 source: 'docs/module-developers/answering-errors.md'
 ---
 The [module contract](../reference/module-contract/README.md#errors) requires

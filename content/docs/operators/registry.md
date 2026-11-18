@@ -1,6 +1,6 @@
 ---
 title: 'The registry'
-weight: 4
+weight: 5
 source: 'docs/operators/registry.md'
 ---
 Modules are not configured at the gateway. Each instance of a module
@@ -8,7 +8,9 @@ registers at the registry when it starts, with its manifest and the address
 the gateway reaches it at, and keeps itself registered with a heartbeat every
 10 s. The gateway reads the routes of every live instance from the registry
 every 5 s. Starting a module makes it reachable; stopping it removes its
-routes. See [ADR-0004](../architecture/adr/0004-gateway-and-service-discovery.md).
+routes. See [ADR-0004](../architecture/adr/0004-gateway-and-service-discovery.md),
+and the lifecycle of an instance step by step in
+[registering a module](../module-developers/registering-a-module.md#what-happens).
 
 The registry keeps the instances in Valkey, each for 30 s after its last
 heartbeat; their keys are listed in
@@ -38,11 +40,13 @@ Configure it on both sides, the same value:
 | Registry | `Registry__RegistrationKeys__<moduleId>__0` | `<MODULEID>_REGISTRATION_KEY` |
 | Module | `Homeport__Registry__Key` | the same variable |
 
-`<moduleId>` is the module's id, such as `echo`. Each key belongs to exactly
-one module: a leaked key lets its holder register as that module, never as
-another. Homeport neither generates nor expires keys in a real installation;
-the AppHost generates one per module for a local run and keeps it in its user
-secrets, as it does the passwords.
+`<moduleId>` is the module's id, such as `echo`. The id `platform` and every
+id that starts with `homeport-` are reserved for the platform and its
+services, and the registry does not start with a key for one. Each key belongs to exactly one module: a leaked
+key lets its holder register as that module, never as another. Homeport
+neither generates nor expires keys in a real installation; the AppHost
+generates one per module for a local run and keeps it in its user secrets,
+as it does the passwords.
 
 The registry checks the keys at start-up and refuses to start with an empty
 key or more than two for one module id. Its start log lists the module ids it
@@ -106,6 +110,12 @@ not ready (`/health/ready`) and answers with `500` until Valkey answers.
 the gateway may read it: the registry accepts a service token the gateway
 issued for the audience `homeport-registry`
 ([ADR-0014](../architecture/adr/0014-authentication-between-services.md))
-and answers anything else with `401`. To see what is registered, read the
-registry's log: every registration is logged at Information with the module
-id, version, address and route count.
+and answers a request without one with `401`, and any other token of the
+gateway, a caller token included, with `403`
+([`insufficient-scope`](../reference/problems/insufficient-scope.md)).
+
+To see what is registered, open *Modules* in the
+[admin portal](admin-portal.md), or read
+`GET /platform/v1/admin/modules` from the [admin API](admin-api.md). Every
+registration is also logged at Information with the module id, version,
+address and route count.

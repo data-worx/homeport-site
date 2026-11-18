@@ -1,6 +1,6 @@
 ---
 title: 'Metering'
-weight: 28
+weight: 32
 source: 'docs/architecture/metering.md'
 ---
 How a request through the gateway becomes usage in PostgreSQL, what is
@@ -10,6 +10,9 @@ the *Metering* section of [`AGENTS.md`](../../AGENTS.md#metering). How to
 run it is in [the operators' page](../operators/metering.md).
 
 ## The path of one request
+
+The [request flow](request-flow.md#a-call-to-a-module) draws the whole
+call, from the client's token to the aggregates.
 
 1. The gateway forwards a request to a module and answers the client. Then
    it publishes one `UsageRecorded`: a new `eventId`, the tenant and client,

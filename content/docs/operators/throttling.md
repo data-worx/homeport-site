@@ -1,6 +1,6 @@
 ---
 title: 'Throttling'
-weight: 7
+weight: 8
 source: 'docs/operators/throttling.md'
 ---
 The gateway holds every tenant to the rate limit of its plan: a token bucket
@@ -14,13 +14,16 @@ later milestone.
 ## Plan limits
 
 A plan's limits live in the control plane, next to its tenants and clients.
-Today the control plane seeds one plan; set its limits with the seed, as
+The operator creates, changes and deletes plans in
+[the admin portal](admin-portal.md#plans) or through
+[the admin API](admin-api.md#endpoints). The control plane also seeds one
+plan; set its limits with the seed, as
 [the control plane](control-plane.md#migrating-and-seeding) describes:
 
 | Setting | Means |
 |---|---|
 | `Seed__RequestsPerSecond` | How fast the bucket refills, in requests per second; positive |
-| `Seed__Burst` | How many requests the bucket holds at once; at least the rate |
+| `Seed__Burst` | How many requests the bucket holds at once; positive, and may be below the rate |
 
 A tenant with a burst of 20 and 10 requests per second can send 20 requests
 at once, then 10 per second. The gateway keeps the plan it looked up with
@@ -38,8 +41,9 @@ replicas whose clocks drift still agree. A key expires once its bucket would
 be full again, so an idle tenant leaves nothing behind.
 
 The gateway reads Valkey's address from `ConnectionStrings__valkey`. The
-AppHost runs two gateway replicas, and so does the compose file, with
-`deploy.replicas`.
+AppHost runs two gateway replicas; the compose file runs one, and more as
+[scaling out the gateway](reverse-proxy.md#scaling-out-the-gateway)
+describes.
 
 ## While Valkey is down
 

@@ -2,7 +2,7 @@
 title: 'ADR-0019: Tokens for forwarded platform requests'
 source: 'docs/architecture/adr/0019-tokens-for-forwarded-platform-requests.md'
 ---
-- Status: Accepted
+- Status: Accepted; supplemented by ADR-0020
 - Date: 2026-11-07
 
 ## Context

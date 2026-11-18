@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The documentation under `/docs/` now describes Homeport v0.2.0. It adds
+  the admin portal with a screenshot of each screen, the admin API,
+  upgrading, the request flow, ADR 0020 and five new problem types.
+
 ## [0.3.0] - 2026-11-12
 
 ### Added

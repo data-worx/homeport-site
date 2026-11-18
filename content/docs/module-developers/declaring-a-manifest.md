@@ -1,6 +1,6 @@
 ---
 title: 'Declaring a manifest with the SDK'
-weight: 13
+weight: 16
 source: 'docs/module-developers/declaring-a-manifest.md'
 ---
 Every module tells Homeport what it is at
@@ -37,7 +37,8 @@ var manifest = new ModuleManifest(
 
 - **`Id`** is the module's stable name. It appears in the URL callers use,
   `/modules/{id}/…`, in metrics and in `service.name`. Lower-case letters,
-  digits and `-`, starting with a letter; `platform` is reserved.
+  digits and `-`, starting with a letter; `platform` and every id starting
+  with `homeport-` are reserved.
 - **`Version`** is the module's own SemVer version. `ModuleVersion.Of` reads
   it from the assembly, so it follows the build's `Version` and carries the
   commit as build metadata, for example `0.1.0+c1fef1c…`. A Homeport build

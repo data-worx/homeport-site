@@ -2,7 +2,7 @@
 title: 'ADR-0010: Admin portal'
 source: 'docs/architecture/adr/0010-admin-portal.md'
 ---
-- Status: Accepted
+- Status: Accepted; API path superseded by ADR-0020
 - Date: 2026-10-19
 
 ## Context

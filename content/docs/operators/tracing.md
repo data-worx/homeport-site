@@ -1,6 +1,6 @@
 ---
 title: 'Tracing'
-weight: 11
+weight: 14
 source: 'docs/operators/tracing.md'
 ---
 Every Homeport service and every module built with the SDK exports its

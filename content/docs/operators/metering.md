@@ -1,6 +1,6 @@
 ---
 title: 'Metering'
-weight: 6
+weight: 7
 source: 'docs/operators/metering.md'
 ---
 Metering counts the usage of every module per tenant: every request the
@@ -42,6 +42,21 @@ against a server of your own.
 |---|---|---|---|
 | `metering_owner` | `migrate` | owns `metering`, runs DDL | `METERING_OWNER_PASSWORD` |
 | `metering_app` | metering | reads and writes the tables, no DDL, held to row-level security | `METERING_APP_PASSWORD` |
+| `metering_admin` | metering, for the operator | reads the usage aggregates of every tenant, adds to `audit_entries`; nothing else | `METERING_ADMIN_PASSWORD` |
+
+`metering_admin` reads every tenant's rows through a row-level security
+policy of its own, `admin_read`, never through `BYPASSRLS`
+([ADR-0020](../architecture/adr/0020-the-operator-as-a-caller.md)). The
+script creates the role and lets it use the schema; the migrations grant it
+what it reads and create the policy, so the role has to exist before
+`migrate` runs.
+
+An installation whose database was prepared before this role existed lacks
+it, and `migrate` fails on the first grant to it. Create it once, as a
+superuser, before you migrate, as
+[upgrading from v0.1.0](upgrading.md#3-create-the-role-metering_admin)
+shows. Metering needs its password in `ConnectionStrings__metering-admin`,
+and the compose file takes it from `METERING_ADMIN_PASSWORD` in `.env`.
 
 ## Preparing the broker
 
@@ -107,6 +122,7 @@ plane's, it retries a connection while PostgreSQL still starts.
 | Environment variable | Compose `.env` | Meaning |
 |---|---|---|
 | `ConnectionStrings__metering` | built from `METERING_APP_PASSWORD` | The app role's connection |
+| `ConnectionStrings__metering-admin` | built from `METERING_ADMIN_PASSWORD` | The admin role's connection, for the operator's reads only |
 | `ConnectionStrings__rabbitmq` | built from `METERING_RABBITMQ_PASSWORD` | The broker, as the user `metering` |
 
 The gateway publishes with `ConnectionStrings__rabbitmq` built from
@@ -134,6 +150,40 @@ A service token, which names no tenant, is refused with `403`.
 The gateway logs the metering address that applies when it starts. The
 export counts against the tenant's rate limit and is not itself metered.
 Metering logs a token it refuses at Warning, without the token.
+
+Metering's readiness check, `/health/ready`, signs in on both connections.
+An admin connection that cannot sign in, such as one with a wrong
+`METERING_ADMIN_PASSWORD` after an upgrade, reports metering unhealthy, and
+metering logs whether the password was refused or the database could not be
+reached. The operator's reads still answer `500` meanwhile. The compose file
+does not probe the endpoint; point your orchestrator's readiness probe at it
+to see the failure before the first read does.
+
+## The operator's usage read
+
+Metering serves `GET /v1/admin/usage` to the operator, which the gateway
+forwards from `/platform/v1/admin/usage` on its admin endpoint only. It takes
+the parameters of the export plus `tenant`, a tenant's id, and writes the
+tenant into every row; the [admin portal](admin-portal.md#usage) reads and
+downloads it. Metering serves it only on a caller token with the scope
+`admin` and no tenant
+([ADR-0020](../architecture/adr/0020-the-operator-as-a-caller.md)), and
+reads through `ConnectionStrings__metering-admin`, the one connection that
+sees every tenant.
+
+Every read writes an entry into `metering.audit_entries` in the same
+transaction: when, the operator's subject and display name, the action
+`usage.read`, the target — `tenants` or `tenants/<id>` — and the filter in
+words. A read that is refused, such as one with an invalid period, writes
+none. Metering never deletes an entry; neither the app role nor the admin
+role may change or delete one.
+
+Metering serves its audit log at `GET /v1/admin/metering/audit`, which the
+gateway forwards from `/platform/v1/admin/metering/audit` on its admin
+endpoint only, on the same caller token. It reads the entries as the app
+role, not the admin role: they are the platform's data, not a tenant's, and
+reading them writes no entry. Its parameters are those of
+[the admin API](admin-api.md#audit).
 
 ## Metrics and logs
 

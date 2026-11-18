@@ -1,6 +1,6 @@
 ---
 title: 'Calling a module'
-weight: 20
+weight: 23
 source: 'docs/api-consumers/calling-a-module.md'
 ---
 Every module is reached through the gateway, the one entry point of a Homeport

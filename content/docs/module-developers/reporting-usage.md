@@ -1,6 +1,6 @@
 ---
 title: 'Reporting usage'
-weight: 17
+weight: 20
 source: 'docs/module-developers/reporting-usage.md'
 ---
 The gateway counts every request a module answers in the meter and quantity
