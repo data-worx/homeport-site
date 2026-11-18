@@ -96,6 +96,13 @@ The layout is described in [`docs/architecture.md`](docs/architecture.md).
   environment, so a candidate `vX.Y.Z-rc.N` is neither built nor deployed.
 - The steps are in [`docs/releasing.md`](docs/releasing.md).
 
+## Review
+
+- Screenshots a ticket asks for are shown to the maintainer while the work
+  is done, and count as delivered once the maintainer has accepted them
+  there. They are not attached to or embedded in the pull request, and
+  never committed for it; the request names the acceptance instead.
+
 ## Domain terms
 
 See the *Domain terms* of
