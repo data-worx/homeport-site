@@ -38,6 +38,7 @@ gate_site() {
   [ "${rc}" -eq 0 ] && { bash scripts/check-site.sh "${out}" || rc=1; }
   [ "${rc}" -eq 0 ] && { check_problem_uris "${out}" || rc=1; }
   [ "${rc}" -eq 0 ] && { check_markdown "${out}" || rc=1; }
+  [ "${rc}" -eq 0 ] && { check_devlog "${out}" || rc=1; }
   rm -rf "${out}"
   return "${rc}"
 }
@@ -90,6 +91,25 @@ check_markdown() {
   return "${rc}"
 }
 
+# The devlog has its RSS feed, and the feed lists every post by its URL.
+check_devlog() {
+  local site="$1" feed="$1/devlog/index.xml" base post rc=0
+  base="$(sed -n 's/^baseURL = "\(.*\)\/"$/\1/p' hugo.toml)"
+  if ! grep -q '<rss version="2.0"' "${feed}" 2> /dev/null; then
+    echo "devlog/index.xml: missing or not an RSS feed"
+    return 1
+  fi
+  for post in content/devlog/*.md; do
+    [ "$(basename "${post}")" = "_index.md" ] && continue
+    if ! grep -qF "<link>${base}/devlog/$(basename "${post}" .md)/</link>" "${feed}"; then
+      echo "devlog/index.xml: does not list ${post}"
+      rc=1
+    fi
+  done
+  [ "${rc}" -eq 0 ] && echo "the devlog feed lists every post"
+  return "${rc}"
+}
+
 leads_to() {
   if ! grep -q "url=$2\"" "$1" 2> /dev/null; then
     echo "$1: missing or does not lead to $2"
@@ -101,7 +121,7 @@ leads_to() {
 gate_expectation() {
   case "$1" in
     build) echo "the site builds without warnings or errors" ;;
-    site)  echo "every internal link resolves, nothing loads from another host, every problem type URI leads to its page, every documentation page has its Markdown with absolute links, listed in llms.txt" ;;
+    site)  echo "every internal link resolves, nothing loads from another host, every problem type URI leads to its page, every documentation page has its Markdown with absolute links, listed in llms.txt, the devlog feed lists every post" ;;
   esac
 }
 

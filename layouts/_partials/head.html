@@ -28,6 +28,9 @@
 {{ $copy := resources.Get "js/copy-markdown.js" | minify | fingerprint }}
 <script src="{{ $copy.RelPermalink }}" integrity="{{ $copy.Data.Integrity }}" defer></script>
 {{- end }}
+{{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" title="{{ $.Title }} · {{ site.Title }}" href="{{ .RelPermalink }}">
+{{- end }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
 <link rel="icon" href="{{ "favicon-32.png" | relURL }}" sizes="32x32" type="image/png">

@@ -3,7 +3,13 @@ title = "Homeport"
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 disableDefaultLanguageRedirect = true
-disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT"]
+disableKinds = ["taxonomy", "term", "sitemap", "robotsTXT"]
+
+# No page writes a feed unless a cascade below gives it one.
+[outputs]
+  home = ["html"]
+  section = ["html"]
+  page = ["html"]
 
 [languages]
   [languages.en]
@@ -46,3 +52,10 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT"]
     path = "/"
     [cascade.target.sites.matrix]
       languages = ["en"]
+
+# The devlog's feed, /devlog/index.xml: written by the devlog's list page
+# only, not by its posts.
+[[cascade]]
+  outputs = ["html", "rss"]
+  [cascade.target]
+    path = "/devlog"

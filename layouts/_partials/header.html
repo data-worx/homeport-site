@@ -18,6 +18,10 @@
       {{- with hugo.Sites.Default.GetPage "/docs" }}
       <a href="{{ .RelPermalink }}"{{ if ne .Language.Lang site.Language.Lang }} hreflang="{{ .Language.Locale }}"{{ end }}>{{ T "navDocs" }}</a>
       {{- end }}
+      {{- /* The devlog is English only as well. */}}
+      {{- with hugo.Sites.Default.GetPage "/devlog" }}
+      <a href="{{ .RelPermalink }}"{{ if ne .Language.Lang site.Language.Lang }} hreflang="{{ .Language.Locale }}"{{ end }}>{{ T "navDevlog" }}</a>
+      {{- end }}
       {{- range .Translations }}
       <a href="{{ .RelPermalink }}" hreflang="{{ .Language.Locale }}" lang="{{ .Language.Locale }}">{{ .Language.Label }}</a>
       {{- end }}

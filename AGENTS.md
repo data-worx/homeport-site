@@ -66,8 +66,9 @@ The layout is described in [`docs/architecture.md`](docs/architecture.md).
 - Every page works without JavaScript, except for a feature that needs
   script. Script is served from this site and sets no cookies.
 - Every page under `content/` exists as `.en.md` and `.de.md`. English is
-  served at `/`, German at `/de/`. The exception is `content/docs/`: the
-  synced documentation is English only, and the German pages link to it.
+  served at `/`, German at `/de/`. The exceptions are `content/docs/` and
+  `content/devlog/`: the synced documentation and the devlog are English
+  only, and the German pages link to them.
 - German content addresses the reader as *du*, never as *Sie*.
 - Translatable strings in templates come from `i18n/`, in both languages.
 
