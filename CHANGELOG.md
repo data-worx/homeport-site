@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-11-19
+
+### Added
+
+- The start page lists the three newest devlog posts, with their date and
+  a line on what each is about, in English and German, so a new post is
+  visible without opening the devlog.
+
 ## [0.4.0] - 2026-11-19
 
 ### Added
