@@ -1,5 +1,8 @@
-{{- /* The date and byline of a devlog post. */}}
+{{- /* The date and byline of a devlog post. "author" in its front matter
+       is one name or a list of names. */}}
+{{- $authors := .Params.author }}
+{{- if not (reflect.IsSlice $authors) }}{{ $authors = slice $authors }}{{ end }}
 <p class="devlog-meta">
   <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
-  · {{ T "byline" (dict "Author" .Params.author) }}
+  · {{ T "byline" (dict "Author" (delimit $authors ", " (T "bylineAnd"))) }}
 </p>

@@ -1,7 +1,7 @@
 ---
 title: "Homeport v0.2.0: the admin portal"
 date: 2026-11-19
-author: René Kuss
+author: [René Kuss, Claude]
 description: The operator gets a portal for tenants, plans, clients, modules, usage and the audit log. Three decisions shape how it reaches the platform.
 ---
 
