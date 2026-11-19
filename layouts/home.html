@@ -143,8 +143,30 @@
 </section>
 {{ end }}
 
+{{- /* The devlog is English only, so both languages list its posts. */}}
+{{ with hugo.Sites.Default.GetPage "/devlog" }}
+{{- with first 3 .RegularPages.ByDate.Reverse }}
+<section id="devlog" class="sec">
+  <div class="wrap">
+    <h2 class="h1">{{ T "homeDevlog" }}</h2>
+    <ul class="log">
+      {{- range . }}
+      <li>
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan 2006" }}</time>
+        <div>
+          <a href="{{ .RelPermalink }}"{{ if ne .Language.Lang site.Language.Lang }} hreflang="{{ .Language.Locale }}"{{ end }}>{{ .Title }}</a>
+          <p>{{ .Description }}</p>
+        </div>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+</section>
+{{- end }}
+{{ end }}
+
 {{ with .Params.licensing }}
-<section class="sec">
+<section class="sec alt">
   <div class="wrap">
     <h2 class="h1">{{ .title }}</h2>
     <div class="lic">

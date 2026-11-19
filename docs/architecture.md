@@ -83,7 +83,9 @@ imprint.local.txt       git-ignored: the imprint address, never committed
 - **The start page's sections live in front matter.** Each section is a
   block of structured text in `content/_index.<lang>.md`; `home.html` lays
   them out. The text stays content under CC BY, the layout stays the same
-  in both languages.
+  in both languages. The devlog section is the exception: it lists the
+  three newest posts, taken from the devlog itself, on the start page of
+  both languages, so it has no text of its own but its heading in `i18n/`.
 - **The documentation comes from a release tag.** An operator reads the
   documentation of the version they run, not of a `main` that is ahead of
   every release. `scripts/sync-docs.sh` copies the five reader directories

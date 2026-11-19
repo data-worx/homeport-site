@@ -107,6 +107,36 @@ check_devlog() {
     fi
   done
   [ "${rc}" -eq 0 ] && echo "the devlog feed lists every post"
+  [ "${rc}" -eq 0 ] && { check_home_devlog "${site}" || rc=1; }
+  return "${rc}"
+}
+
+# How many posts the devlog section of the start page lists.
+HOME_DEVLOG_POSTS=3
+
+# The start page in both languages lists the newest devlog posts, newest
+# first, and no others. The order comes from the date in each post's front
+# matter. The minified page may drop the quotes around attribute values.
+check_home_devlog() {
+  local site="$1" page post expected actual rc=0
+  expected="$(for post in content/devlog/*.md; do
+      [ "$(basename "${post}")" = "_index.md" ] && continue
+      echo "$(sed -n 's/^date: *//p' "${post}" | head -1) /devlog/$(basename "${post}" .md)/"
+    done | sort -r | head -n "${HOME_DEVLOG_POSTS}" | cut -d' ' -f2)"
+  for page in index.html de/index.html; do
+    actual="$(sed 's/<section/\n<section/g' "${site}/${page}" \
+      | sed -n '/^<section id="\{0,1\}devlog/p' \
+      | grep -o 'href="\{0,1\}/devlog/[^/"> ]*/' \
+      | sed 's/^href="\{0,1\}//')"
+    if [ "${actual}" != "${expected}" ]; then
+      echo "${page}: the devlog section lists"
+      echo "${actual:-nothing}"
+      echo "instead of"
+      echo "${expected:-nothing}"
+      rc=1
+    fi
+  done
+  [ "${rc}" -eq 0 ] && echo "the start page lists the newest devlog posts"
   return "${rc}"
 }
 
@@ -121,7 +151,7 @@ leads_to() {
 gate_expectation() {
   case "$1" in
     build) echo "the site builds without warnings or errors" ;;
-    site)  echo "every internal link resolves, nothing loads from another host, every problem type URI leads to its page, every documentation page has its Markdown with absolute links, listed in llms.txt, the devlog feed lists every post" ;;
+    site)  echo "every internal link resolves, nothing loads from another host, every problem type URI leads to its page, every documentation page has its Markdown with absolute links, listed in llms.txt, the devlog feed lists every post, the start page lists the newest devlog posts" ;;
   esac
 }
 
