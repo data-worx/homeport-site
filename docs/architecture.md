@@ -21,7 +21,8 @@ assets/
   icons/                generated: Lucide and Homeport icons, inlined
   images/               generated: lockups, hero illustration, architecture
                         diagram
-  js/theme.js           the theme switch, the only script
+  js/theme.js           the theme switch
+  js/copy-markdown.js   Copy as Markdown on the documentation pages
 content/                one page per language: <name>.en.md, <name>.de.md;
                         the start page keeps its sections in front matter
   docs/                 generated: the Homeport documentation of a release
@@ -30,11 +31,14 @@ i18n/                   UI strings, en.toml and de.toml
 layouts/
   baseof.html           the page frame
   home.html             the start page
+  home.llms.txt         /llms.txt: every documentation page's Markdown
   page.html             text pages: imprint, privacy policy
-  docs/                 the documentation: section and page layouts, and
-                        render hooks for its links and images
+  docs/                 the documentation: section and page layouts in
+                        HTML and Markdown, and render hooks for its links
+                        and images
   _partials/            head, header, footer, logo, icon, the
-                        documentation's navigation and source link
+                        documentation's navigation, source link, Copy as
+                        Markdown button, link resolution and Markdown
   _shortcodes/          imprint-address: the address from imprint.local.txt
 scripts/
   sync-design.sh        pulls the generated design files
@@ -98,6 +102,26 @@ imprint.local.txt       git-ignored: the imprint address, never committed
   document gets its page, anything else in the repository its file on
   GitHub at the tag. A link into a reader directory that matches no page
   fails the build, so a rename upstream cannot leave a dead link here.
+- **Every documentation page is also Markdown.** A reader working with an
+  AI assistant needs the text, not the HTML around it. Hugo's `markdown`
+  output format, set on `/docs/` by a cascade in `hugo.toml`, writes
+  `index.md` next to each page: the title, the page's URL and the synced
+  source. The source carries the relative links of the homeport repository,
+  so `_partials/docs-markdown.html` rewrites every link and image to an
+  absolute site URL, resolved by `_partials/docs-href.html` — the same
+  partial the HTML link hook uses, so both resolve alike.
+- **`/llms.txt` indexes that Markdown.** It lists every documentation page
+  with the URL of its `index.md`, in the order of the navigation, a
+  subsection's pages after it. It exists in English only, like the
+  documentation. The gate `site` checks that every page has its Markdown,
+  that none of it holds a relative link, and that every URL in `llms.txt`
+  exists.
+- **Copy as Markdown fetches from this site.** The button fetches the
+  page's `index.md` and writes it to the clipboard; nothing goes to a third
+  party, and there is no link that opens a page in an AI service. It needs
+  script, so it stays hidden without JavaScript, and the Markdown is still
+  at its URL. The clipboard write starts with the click and receives the
+  Markdown once fetched, since Safari drops a write that starts later.
 - **The documentation is English only.** It is written once, in English,
   upstream. The German header links to it with `hreflang="en"` rather than
   showing a translation that does not exist.
@@ -115,6 +139,10 @@ imprint.local.txt       git-ignored: the imprint address, never committed
   itself loads nothing for them. The image is the kit's social preview,
   one for all pages and both languages, so it needs an absolute URL and
   stays in `static/`.
+- **Script only where a feature needs it.** Pages work without
+  JavaScript; a feature that cannot work without it, such as Copy as
+  Markdown, brings its own script, served from this site and setting no
+  cookies, and is loaded only on the pages that have the feature.
 - **The theme switch only enhances.** Without JavaScript the page follows
   `prefers-color-scheme` and the switch stays hidden. With it, a few inline
   lines in `<head>` apply the stored choice before the first paint, and

@@ -24,6 +24,10 @@
 {{ $js := resources.Get "js/theme.js" | minify | fingerprint }}
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ $css := slice (resources.Get "css/tokens.css") (resources.Get "css/site.css") | resources.Concat "css/site.css" | minify | fingerprint }}
+{{- with .OutputFormats.Get "markdown" }}
+{{ $copy := resources.Get "js/copy-markdown.js" | minify | fingerprint }}
+<script src="{{ $copy.RelPermalink }}" integrity="{{ $copy.Data.Integrity }}" defer></script>
+{{- end }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
 <link rel="icon" href="{{ "favicon-32.png" | relURL }}" sizes="32x32" type="image/png">

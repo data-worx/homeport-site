@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Every documentation page is also served as Markdown at `index.md` next
+  to it, with absolute links, and has a *Copy as Markdown* button, so you
+  can hand a page to an AI assistant without the navigation around it.
+  `/llms.txt` lists every documentation page with the URL of its Markdown.
+  The button fetches from this site only; nothing is sent elsewhere.
+
 ### Changed
 
 - The start page describes Homeport v0.2.0. It names the admin portal, in

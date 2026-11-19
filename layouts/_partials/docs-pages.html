@@ -1,0 +1,12 @@
+{{- /* The pages of a documentation section in the order of the navigation:
+       the section, then each of its pages, a subsection followed by its
+       own pages. Returns a slice of pages. */}}
+{{- $pages := slice . }}
+{{- range .Pages }}
+  {{- if .IsSection }}
+    {{- $pages = $pages | append (partial "docs-pages.html" .) }}
+  {{- else }}
+    {{- $pages = $pages | append . }}
+  {{- end }}
+{{- end }}
+{{- return $pages }}

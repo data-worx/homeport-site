@@ -1,0 +1,32 @@
+{{- /* The Markdown of a synced document, with every link and image made an
+       absolute site URL. The source carries the relative links of the
+       homeport repository; each is resolved as the HTML resolves it -
+       links by docs-href.html, images as resources of the section - and an
+       anchor of the page itself gets the page's URL. */}}
+{{- $p := . }}
+{{- $md := .RawContent }}
+{{- range findRESubmatch `(!?)\[(?:[^\[\]]|\[[^\]]*\])*\]\(([^)\s]+)` $md }}
+  {{- $match := index . 0 }}
+  {{- $dest := index . 2 }}
+  {{- $abs := $dest }}
+  {{- if eq (index . 1) "!" }}
+    {{- if not (urls.Parse $dest).IsAbs }}
+      {{- with $p.CurrentSection.Resources.Get (urls.Parse $dest).Path }}
+        {{- $abs = .Permalink }}
+      {{- else }}
+        {{- warnf "%s: image %q not found" $p.Params.source $dest }}
+      {{- end }}
+    {{- end }}
+  {{- else }}
+    {{- $href := partial "docs-href.html" (dict "page" $p "dest" $dest) }}
+    {{- if hasPrefix $href "#" }}
+      {{- $abs = printf "%s%s" $p.Permalink $href }}
+    {{- else if hasPrefix $href "/" }}
+      {{- $abs = absURL $href }}
+    {{- else }}
+      {{- $abs = $href }}
+    {{- end }}
+  {{- end }}
+  {{- $md = replace $md $match (printf "%s%s" (strings.TrimSuffix $dest $match) $abs) }}
+{{- end }}
+{{- return $md }}

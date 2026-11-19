@@ -25,3 +25,24 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT"]
 # would ignore the dark theme.
 [markup.highlight]
   codeFences = false
+
+# Every documentation page is also served as Markdown, next to its HTML.
+[[cascade]]
+  outputs = ["html", "markdown"]
+  [cascade.target]
+    path = "{/docs,/docs/**}"
+
+# The index of the documentation for AI assistants, /llms.txt.
+[outputFormats.llms]
+  baseName = "llms"
+  mediaType = "text/plain"
+  isPlainText = true
+  notAlternative = true
+
+# Written by the English start page only: the documentation is English only.
+[[cascade]]
+  outputs = ["html", "llms"]
+  [cascade.target]
+    path = "/"
+    [cascade.target.sites.matrix]
+      languages = ["en"]

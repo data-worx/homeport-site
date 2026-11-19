@@ -1,0 +1,18 @@
+{{- /* /llms.txt: every documentation page with the URL of its Markdown, in
+       the order of the navigation. */ -}}
+{{- with site.GetPage "/docs" -}}
+# {{ site.Title }}
+
+> {{ site.Home.Description }}
+
+{{ T "docsVersion" (dict "Version" .Params.homeportVersion) }}
+
+- [{{ .Title }}]({{ (.OutputFormats.Get "markdown").Permalink }})
+{{- range .Sections }}
+
+## {{ .Title }}
+{{ range partial "docs-pages.html" . }}
+- [{{ .Title }}]({{ (.OutputFormats.Get "markdown").Permalink }})
+{{- end }}
+{{- end }}
+{{- end }}
