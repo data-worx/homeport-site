@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   can hand a page to an AI assistant without the navigation around it.
   `/llms.txt` lists every documentation page with the URL of its Markdown.
   The button fetches from this site only; nothing is sent elsewhere.
+- A devlog at `/devlog/`: dated posts on how Homeport is built and why,
+  newest first, with an RSS feed at `/devlog/index.xml` that this site
+  builds itself, so subscribing tells no third party. It is English only
+  and linked from the navigation in both languages. The first post
+  introduces Homeport v0.2.0 and its admin portal.
 
 ### Changed
 

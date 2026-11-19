@@ -411,6 +411,19 @@ code {
 .docnav-h a { color: var(--ink); }
 .docnav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-1); }
 
+/* Devlog: the list of posts, and a post. A post reuses the article
+   styles of the documentation. */
+.devlog { max-width: 760px; padding: var(--space-12) 0 var(--space-24); }
+.devlog > .lead2 { color: var(--ink-muted); }
+.devlog-feed { margin: 0 0 var(--space-10); font-size: 14px; }
+.devlog-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-10); }
+.devlog-entry h2 { margin: 0 0 var(--space-1); font: 600 22px/30px var(--font-sans); }
+.devlog-entry h2 a { color: inherit; text-decoration: none; }
+.devlog-entry h2 a:hover { color: var(--primary); }
+.devlog-entry p { margin: 0; }
+.devlog-meta { margin: 0 0 var(--space-3); color: var(--ink-muted); font-size: 14px; }
+.devlog-post .devlog-meta { margin: calc(-1 * var(--space-2)) 0 var(--space-8); }
+
 /* Footer: stays dark in both themes. */
 .foot {
   background: var(--appbar);

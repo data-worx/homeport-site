@@ -27,6 +27,7 @@ content/                one page per language: <name>.en.md, <name>.de.md;
                         the start page keeps its sections in front matter
   docs/                 generated: the Homeport documentation of a release
                         tag, English only
+  devlog/               dated posts on how Homeport is built, English only
 i18n/                   UI strings, en.toml and de.toml
 layouts/
   baseof.html           the page frame
@@ -36,9 +37,11 @@ layouts/
   docs/                 the documentation: section and page layouts in
                         HTML and Markdown, and render hooks for its links
                         and images
+  devlog/               the devlog: the list of posts and a post
   _partials/            head, header, footer, logo, icon, the
                         documentation's navigation, source link, Copy as
-                        Markdown button, link resolution and Markdown
+                        Markdown button, link resolution and Markdown,
+                        the date and byline of a devlog post
   _shortcodes/          imprint-address: the address from imprint.local.txt
 scripts/
   sync-design.sh        pulls the generated design files
@@ -125,6 +128,15 @@ imprint.local.txt       git-ignored: the imprint address, never committed
 - **The documentation is English only.** It is written once, in English,
   upstream. The German header links to it with `hreflang="en"` rather than
   showing a translation that does not exist.
+- **The devlog is English only.** Like the documentation, it is written
+  once, for every reader of the project; the German header links to it
+  with `hreflang="en"`. Each post carries a date and a byline in its front
+  matter, and the list shows the newest first.
+- **The devlog's feed is built by Hugo.** Hugo's own RSS template writes
+  `/devlog/index.xml`; no feed service sees who subscribes. `hugo.toml`
+  sets every kind to HTML only and gives the RSS output to the devlog's
+  list page alone, through a cascade, so no other page grows a feed. The
+  gate `site` checks that the feed lists every post.
 - **Code blocks are not highlighted.** Hugo's highlighter writes fixed
   inline colours that would ignore the dark theme; plain `<pre><code>`
   takes the token colours.

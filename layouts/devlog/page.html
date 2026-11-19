@@ -1,0 +1,9 @@
+{{ define "main" }}
+<div class="wrap">
+  <article class="devlog doc devlog-post">
+    <h1 class="h1">{{ .Title }}</h1>
+    {{ partial "devlog-meta.html" . }}
+    {{ .Content }}
+  </article>
+</div>
+{{ end }}
