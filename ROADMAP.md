@@ -61,6 +61,8 @@ Homeport v0.2.
 
 ## M3 — Homeport v0.2
 
+Done — released in v0.4.0.
+
 The site shows what Homeport v0.2 does and starts a devlog.
 
 Done when:
